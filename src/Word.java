@@ -18,7 +18,7 @@ public class Word {
 	}
 
 	public static void main(String[] args) {
-		Word word1 = new Word("Agar");
+		Word word1 = new Word("Agara");
 		System.out.println(word1.isPolindrom());
 	}
 }
