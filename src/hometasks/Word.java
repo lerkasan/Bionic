@@ -18,7 +18,7 @@ public class Word {
 	}
 
 	public static void main(String[] args) {
-		Word word1 = new Word("Agarana2434");
+		Word word1 = new Word("Agarana123456789");
 		System.out.println(word1.isPolindrom());
 	}
 }
