@@ -1,27 +1,13 @@
 package hometasks.GeomFigure;
 
-public class GeomFigure {
-	
-	private GeomFigure() {
-	}
-	
-	public static double getTotalArea(Figure[] figures) {
-		double totalArea = 0.0;
-		for (Figure i: figures) {
-			totalArea+=i.getArea();
-		}
-		return totalArea;
-	}
-	
-	public static double getTotalAreable(Areable[] areables) {
-		double totalArea = 0.0;
-		for (Areable i: areables) {
-			totalArea+=i.getArea();
-		}
-		return totalArea;
-	}
+import static org.junit.Assert.*;
 
-	public static void main(String[] args) {
+import org.junit.Test;
+
+public class GeomFigureTest {
+
+	@Test
+	public void getTotalAreaTest() {
 		Rectangle square1 = new Rectangle(5);
 		Rectangle square2 = new Rectangle(8.5);
 		Rectangle square3 = new Rectangle(45.78);
@@ -38,8 +24,16 @@ public class GeomFigure {
 		Circle circle6 = new Circle(6.38);
 		
 		Figure[] figures = {square1, rectangle1, circle1, square2, rectangle2, circle2, square3, rectangle3, circle3, rectangle4, rectangle5, circle4, circle5, circle6}; 
-		System.out.println("Total area is " + GeomFigure.getTotalArea(figures));
-		
+		assertEquals(4146.425227910528, GeomFigure.getTotalArea(figures), 0.00001);
+	}
+	
+	/* @Test(expected = java.lang.Error.class) 
+	public void GeomFigureTest() {
+		GeomFigure geom = new GeomFigure();
+	} */
+	
+	@Test
+	public void getTotalAreableTest() {		
 		Areable[] areables = new Areable[14];
 		areables[0] = new Rectangle(5);
 		areables[1]= new Rectangle(8.5);
@@ -56,6 +50,7 @@ public class GeomFigure {
 		areables[12] = new Circle(14.8);
 		areables[13] = new Circle(6.38);
 		
-		System.out.println("Total area is " + GeomFigure.getTotalAreable(areables));
+		assertEquals(4146.425227910528, GeomFigure.getTotalAreable(areables), 0.00001);
 	}
+
 }

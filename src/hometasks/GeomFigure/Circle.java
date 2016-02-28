@@ -3,7 +3,7 @@ package hometasks.GeomFigure;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Circle extends Figure{
+public class Circle extends Figure implements Areable {
 	private double radius;
 	
 	public Circle() {

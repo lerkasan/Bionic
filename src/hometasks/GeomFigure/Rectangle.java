@@ -3,7 +3,7 @@ package hometasks.GeomFigure;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Rectangle extends Figure{
+public class Rectangle extends Figure implements Areable {
 	private double width;
 	private double height;
 	
@@ -46,7 +46,14 @@ public class Rectangle extends Figure{
 	}
 
 	public void setWidth(double width) {
-		this.width = width;
+		if (width >= 0){
+			this.width = width;
+		} else {
+			IllegalArgumentException  e = new IllegalArgumentException("Width of square can't be a negative number.");
+			Logger logger = Logger.getAnonymousLogger();
+			logger.log(Level.SEVERE, "The following exception was thrown:", e);
+			throw e;
+		}
 	}
 
 	public double getHeight() {
@@ -54,7 +61,14 @@ public class Rectangle extends Figure{
 	}
 
 	public void setHeight(double height) {
-		this.height = height;
+		if (height >= 0) {
+			this.height = height;
+		} else {
+			IllegalArgumentException  e = new IllegalArgumentException("Height of square can't be a negative number.");
+			Logger logger = Logger.getAnonymousLogger();
+			logger.log(Level.SEVERE, "The following exception was thrown:", e);
+			throw e;
+		}
 	}
 
 	@Override

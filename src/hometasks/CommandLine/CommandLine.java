@@ -25,7 +25,7 @@ public class CommandLine {
 	}
 
 	public static void main(String[] args) {
-		System.out.println(CommandLine.getArgsSum(args));
+		System.out.print(CommandLine.getArgsSum(args));
 
 	}
 

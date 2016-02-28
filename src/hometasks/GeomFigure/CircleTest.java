@@ -5,7 +5,40 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class CircleTest {
-
+	
+	@Test
+	public void constructorTest() {
+		Circle circle1 = new Circle();
+		assertEquals(0.0, circle1.getRadius(), 0.00001);
+		circle1 = new Circle(5.35);
+		assertEquals(5.35, circle1.getRadius(), 0.00001);
+	}
+	
+	@Test
+	public void copyConstructorTest() {
+		Circle circle1 = new Circle(6.8);
+		Circle circle2 = new Circle(circle1);
+		assertEquals(circle1.getRadius(), circle2.getRadius(), 0.00001);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorExceptionTest() {
+		new Circle(-5.35);
+	}
+	
+	@Test
+	public void setRadiusTest() {
+		Circle circle1 = new Circle(5.35);
+		circle1.setRadius(4.68);
+		assertEquals(4.68, circle1.getRadius(), 0.00001);
+	}
+	
+	@Test(expected = IllegalArgumentException.class)
+	public void setRadiusExceptionTest() {
+		Circle circle1 = new Circle(5.35);
+		circle1.setRadius(-4.68);
+	}
+	
 	@Test
 	public void getAreaTest() {
 		Circle circle1 = new Circle(5.35);

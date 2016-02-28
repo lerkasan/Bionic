@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class FishSale {
-	static final double CONST = 0.0567;
+	static final double CONST_EXPENSES = 0.0567;
 	private String fishName;
 	private double purchasePrice;
 	private double salePrice;
@@ -140,7 +140,7 @@ public class FishSale {
 	}
 	
 	public double getIncome() {
-		double income = this.weight*(this.salePrice - this.purchasePrice - FishSale.CONST*this.purchaseDate.until(this.saleDate, ChronoUnit.DAYS));
+		double income = this.weight*(this.salePrice - this.purchasePrice - FishSale.CONST_EXPENSES*this.purchaseDate.until(this.saleDate, ChronoUnit.DAYS));
 		int temp = (int)Math.round(income*100);
 		income = (double)temp/100;
 		return income;
