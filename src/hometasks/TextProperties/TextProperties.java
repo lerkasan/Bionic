@@ -162,8 +162,8 @@ public class TextProperties {
 	}
 	 
 	public static void main(String[] args) {
-		TextProperties text1 = new TextProperties("C:\\Job\\text1.txt");
-		TextProperties text2 = new TextProperties("C:\\Job\\text2.txt");
+		TextProperties text1 = new TextProperties("texts\\text1.txt");
+		TextProperties text2 = new TextProperties("texts\\text2.txt");
 		text1.getCharFrequency();
 		text2.getCharFrequency();
 		TextProperties.getCommonWords(text1, text2);

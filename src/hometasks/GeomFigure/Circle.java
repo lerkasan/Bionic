@@ -1,7 +1,6 @@
 package hometasks.GeomFigure;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import hometasks.Exceptions.*;
 
 public class Circle extends Figure implements Areable {
 	private double radius;
@@ -10,14 +9,11 @@ public class Circle extends Figure implements Areable {
 		this.radius = 0.0;
 	}
 	
-	public Circle(double radius) throws IllegalArgumentException {
+	public Circle(double radius) throws WrongArgumentException {
 		if (radius >= 0) {
 			this.radius = radius;
 		} else {
-			IllegalArgumentException  e = new IllegalArgumentException("Radius of circle can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("Radius of circle can't be a negative number.");
 		}
 	}
 	
@@ -29,14 +25,11 @@ public class Circle extends Figure implements Areable {
 		return this.radius;
 	}
 
-	public void setRadius(double radius) throws IllegalArgumentException {
+	public void setRadius(double radius) throws WrongArgumentException {
 		if (radius >= 0) {
 			this.radius = radius;
 		} else {
-			IllegalArgumentException  e = new IllegalArgumentException("Radius of circle can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("Radius of circle can't be a negative number.");
 		}
 	}
 

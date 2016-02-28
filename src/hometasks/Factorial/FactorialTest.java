@@ -2,15 +2,16 @@ package hometasks.Factorial;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import hometasks.Exceptions.*;
 
 public class FactorialTest {
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void getBigIntegerFactorialExceptionTest() {
 		Factorial.getBigIntegerFactorial(-12);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void getLongFactorialExceptionTest() {
 		Factorial.getLongFactorial(-12);
 	}

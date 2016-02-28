@@ -68,6 +68,7 @@ public class Birthday {
 	}
 
 	public static void main(String[] args) {
+		Logger logger = Logger.getAnonymousLogger();
 		try {
 			Birthday personBirthday = new Birthday(LocalDate.of(1985, 9, 26));
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy").withLocale(Locale.US);
@@ -76,12 +77,10 @@ public class Birthday {
 			System.out.println("Person's age in months is: " + personBirthday.getMonthsAge());
 		}
 		catch (IllegalArgumentException e) {
-			Logger logger = Logger.getAnonymousLogger();
 			logger.log(Level.SEVERE, "The following exception was thrown:", e);
 			System.out.println("Given birthday argument is in the future.");
 		}
 		catch (DateTimeException e) {
-			Logger logger = Logger.getAnonymousLogger();
 			logger.log(Level.SEVERE, "The following exception was thrown:", e);
 			System.out.println("Incorrect Date");
 		}

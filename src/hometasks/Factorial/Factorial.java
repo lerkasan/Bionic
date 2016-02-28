@@ -1,21 +1,17 @@
 package hometasks.Factorial;
 
 import java.math.BigInteger;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import hometasks.Exceptions.*;
 
 public class Factorial {
 	
 	private Factorial() {
 	}
 	
-	static long getLongFactorial (int n) throws IllegalArgumentException {
+	static long getLongFactorial (int n) throws WrongArgumentException {
 		long fact = 1;
 		if (n < 0) {
-			IllegalArgumentException  e = new IllegalArgumentException("n argument for n! can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("n argument for n! can't be a negative number.");
 		}
 		for (int i=1; i<=n; i++) {
 			fact *= i;
@@ -23,13 +19,10 @@ public class Factorial {
 		return fact;
 	}
 	
-	static BigInteger getBigIntegerFactorial (int n) throws IllegalArgumentException {
+	static BigInteger getBigIntegerFactorial (int n) throws WrongArgumentException {
 		BigInteger fact = BigInteger.valueOf(1);
 		if (n < 0) {
-			IllegalArgumentException  e = new IllegalArgumentException("n argument for n! can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("n argument for n! can't be a negative number.");
 		}
 		for (int i=1; i<=n; i++) {
 			fact = fact.multiply(BigInteger.valueOf(i));

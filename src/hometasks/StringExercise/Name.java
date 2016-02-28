@@ -3,7 +3,7 @@ package hometasks.StringExercise;
 public class Name {
 
 	public static void main(String[] args) {
-		String name = "Р›Р°РїРёС†РєР°СЏ Р’Р°Р»РµСЂРёСЏ Р’Р°Р»РµРЅС‚РёРЅРѕРІРЅР°";
+		String name = "Петренко Богдан Володимирович";
 		String[] initials = new String[3];
 		String[] words = name.split(" ");
 		initials[0] = words[0];

@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import hometasks.Exceptions.*;
 
 /** represents natural number and its prime and common divisors*/
 public class NaturalNumber {
@@ -22,16 +23,16 @@ public class NaturalNumber {
 	}
 
 	/** constructor that creates natural number object with a value of argument n. 
-	 * @throws IllegalArgumentException if argument n isn't a natural number.
+	 * @throws WrongArgumentException if argument n isn't a natural number.
 	 * @param n - natural number with value starting from 1*/
-	public NaturalNumber(int n) throws IllegalArgumentException {
+	public NaturalNumber(int n) throws WrongArgumentException {
 		if (n > 0) {
 			this.num = n;
 			this.primeDivs = null;
 			this.allDivs = null;
 		} else {
 			//System.err.println("Constructor received not a positive number");
-			throw new IllegalArgumentException("Constructor received not a positive number");
+			throw new WrongArgumentException("Constructor received not a positive number");
 		}
 	}
 	
@@ -81,16 +82,16 @@ public class NaturalNumber {
 	}
 
 	/** sets field num of natural number object with a value of argument n. 
-	 * @throws IllegalArgumentException if argument n isn't a natural number.
+	 * @throws WrongArgumentException if argument n isn't a natural number.
 	 * @param n - natural number with value starting from 1*/
-	public void setNum(int n) throws IllegalArgumentException {
+	public void setNum(int n) throws WrongArgumentException {
 		if (n > 0) {
 			this.num = n;
 			this.primeDivs = null;
 			this.allDivs = null;
 		} else {
 			System.err.println("setNum method received not a positive number");
-			throw new IllegalArgumentException("setNum method received not a positive number");
+			throw new WrongArgumentException("setNum method received not a positive number");
 		}
 	}
 
@@ -251,7 +252,7 @@ public class NaturalNumber {
 				}
 				System.out.println("\nIs " + n + " prime? " + numb.isPrime());
 				System.out.println("Is " + n + " perfect? " + numb.isPerfect());
-			} catch (IllegalArgumentException e) {
+			} catch (WrongArgumentException e) {
 				Logger logger = Logger.getAnonymousLogger();
 				logger.log(Level.SEVERE, "The following exception was thrown:", e);
 				System.out.println("You entered not a natural number. Please try again.");

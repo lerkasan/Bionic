@@ -3,6 +3,7 @@ package hometasks.NaturalNumber;
 import static org.junit.Assert.*;
 import java.util.Arrays;
 import org.junit.Test;
+import hometasks.Exceptions.*;
 
 public class NaturalNumberTest {
 
@@ -14,7 +15,7 @@ public class NaturalNumberTest {
 		assertEquals(25,numb.getNum());
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void constructorExceptionTest() {
 		new NaturalNumber(-15);
 	}

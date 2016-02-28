@@ -1,7 +1,6 @@
-package hometasks.GeomFigure;
+ package hometasks.GeomFigure;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import hometasks.Exceptions.*;
 
 public class Rectangle extends Figure implements Areable {
 	private double width;
@@ -12,27 +11,21 @@ public class Rectangle extends Figure implements Areable {
 		this.height = 0.0;
 	}
 	
-	public Rectangle(double side) {
+	public Rectangle(double side) throws WrongArgumentException {
 		if (side >= 0) {
 			this.width = side;
 			this.height = side;
 		} else {
-			IllegalArgumentException  e = new IllegalArgumentException("Side of square can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("Side of square can't be a negative number.");
 		}
 	}
 
-	public Rectangle(double width, double height) {
+	public Rectangle(double width, double height) throws WrongArgumentException {
 		if ( (width >= 0) && (height >= 0) ){
 			this.width = width;
 			this.height = height;
 		} else {
-			IllegalArgumentException  e = new IllegalArgumentException("Width and height of square can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("Width and height of square can't be a negative number.");
 		}
 	}
 	
@@ -45,14 +38,11 @@ public class Rectangle extends Figure implements Areable {
 		return this.width;
 	}
 
-	public void setWidth(double width) {
+	public void setWidth(double width) throws WrongArgumentException {
 		if (width >= 0){
 			this.width = width;
 		} else {
-			IllegalArgumentException  e = new IllegalArgumentException("Width of square can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("Width of square can't be a negative number.");
 		}
 	}
 
@@ -60,14 +50,11 @@ public class Rectangle extends Figure implements Areable {
 		return this.height;
 	}
 
-	public void setHeight(double height) {
+	public void setHeight(double height) throws WrongArgumentException {
 		if (height >= 0) {
 			this.height = height;
 		} else {
-			IllegalArgumentException  e = new IllegalArgumentException("Height of square can't be a negative number.");
-			Logger logger = Logger.getAnonymousLogger();
-			logger.log(Level.SEVERE, "The following exception was thrown:", e);
-			throw e;
+			throw new WrongArgumentException("Height of square can't be a negative number.");
 		}
 	}
 

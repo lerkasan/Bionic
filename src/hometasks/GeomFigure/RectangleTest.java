@@ -1,8 +1,8 @@
 package hometasks.GeomFigure;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
+import hometasks.Exceptions.*;
 
 public class RectangleTest {
 	
@@ -24,12 +24,12 @@ public class RectangleTest {
 		assertEquals(rectangle1.getHeight(), rectangle2.getHeight(), 0.00001);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void constructorWidthExceptionTest() {
 		new Rectangle(-5.35, 4.2);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void constructorHeightExceptionTest() {
 		new Rectangle(5.35, -4.2);
 	}
@@ -50,13 +50,13 @@ public class RectangleTest {
 		assertEquals(4.68, rectangle1.getHeight(), 0.00001);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void setWidthExceptionTest() {
 		Rectangle rectangle1 = new Rectangle(5.35, 8.7);
 		rectangle1.setWidth(-4.68);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void setHeightExceptionTest() {
 		Rectangle rectangle1 = new Rectangle(5.35, 8.7);
 		rectangle1.setHeight(-4.68);

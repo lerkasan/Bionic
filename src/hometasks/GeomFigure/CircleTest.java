@@ -1,8 +1,8 @@
 package hometasks.GeomFigure;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
+import hometasks.Exceptions.*;
 
 public class CircleTest {
 	
@@ -21,7 +21,7 @@ public class CircleTest {
 		assertEquals(circle1.getRadius(), circle2.getRadius(), 0.00001);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void constructorExceptionTest() {
 		new Circle(-5.35);
 	}
@@ -33,7 +33,7 @@ public class CircleTest {
 		assertEquals(4.68, circle1.getRadius(), 0.00001);
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
+	@Test(expected = WrongArgumentException.class)
 	public void setRadiusExceptionTest() {
 		Circle circle1 = new Circle(5.35);
 		circle1.setRadius(-4.68);
