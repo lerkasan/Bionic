@@ -32,13 +32,5 @@ public class AuthoredText extends TitledText {
 			throw new NullArgumentException("Authors list can't be null.");
 		}
 	}
-	
-	public static void main(String[] args) {
-		String[] authors = {"1", "2", "3"};
-		AuthoredText text1 = new AuthoredText("title", "text", authors);
-		authors[1] = "4";
-		System.out.println(text1.getAuthors()[1]);
-		
-	}
 
 }
