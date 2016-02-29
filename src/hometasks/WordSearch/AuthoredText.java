@@ -2,7 +2,7 @@ package hometasks.WordSearch;
 
 import hometasks.Exceptions.*;
 
-public class AuthoredText extends Text {
+public class AuthoredText extends TitledText {
 	private String[] authors;
 
 	public AuthoredText() {

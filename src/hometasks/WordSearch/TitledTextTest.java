@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TextTest {
+public class TitledTextTest {
 
 	@Test
 	public void printTextWithAllSearchWordsTest() {
@@ -18,18 +18,18 @@ public class TextTest {
 		wikiArticles[0] = new WikiArticle("Улица", "машина пешеход дерево", "https://ru.wikipedia.org/wiki/Улица");
 		Article article1 = new Article("Статья о тротуаре", "вечер город автобус", rempel, "Журнал", 2015, "Том 5, №1");
 		
-		Text[] texts = {books[0], books[1], wikiArticles[0], article1};
+		TitledText[] texts = {books[0], books[1], wikiArticles[0], article1};
 		String[] words1 = {"улица"};
 		String[] words2 = {"улица", "машина"};
 		String[] words3 = {"тротуар"};
 		String[] words4 = {"тротуар", "водитель"};
-		assertEquals(3,Text.printTextWithAllSearchWords(texts, words1));
+		assertEquals(3,TitledText.printTextWithAllSearchWords(texts, words1));
 		System.out.println();
-		assertEquals(2,Text.printTextWithAllSearchWords(texts, words2));
+		assertEquals(2,TitledText.printTextWithAllSearchWords(texts, words2));
 		System.out.println();
-		assertEquals(2,Text.printTextWithAllSearchWords(texts, words3));
+		assertEquals(2,TitledText.printTextWithAllSearchWords(texts, words3));
 		System.out.println();
-		assertEquals(0,Text.printTextWithAllSearchWords(texts, words4));
+		assertEquals(0,TitledText.printTextWithAllSearchWords(texts, words4));
 	}
 
 }

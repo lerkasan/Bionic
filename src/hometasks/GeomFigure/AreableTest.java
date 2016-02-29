@@ -24,7 +24,7 @@ public class AreableTest {
 		areables[12] = new Circle(14.8);
 		areables[13] = new Circle(6.38);
 		
-		assertEquals(4146.425227910528, Areable.getTotalAreable(areables), 0.00001);
+		assertEquals(4146.425227910528, Areable.getTotalArea(areables), 0.00001);
 	}
 
 }

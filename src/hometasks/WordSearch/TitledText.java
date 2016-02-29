@@ -9,16 +9,16 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Text {
+public class TitledText {
 	private String title;
 	private String text;
 	
-	public Text() {
+	public TitledText() {
 		this.title = "";
 		this.text = "";
 	}
 	
-	public Text(String title, String text) throws NullArgumentException {
+	public TitledText(String title, String text) throws NullArgumentException {
 		if ( (title == null) || (text == null) ) {
 			throw new NullArgumentException("Title and Text can't be null.");
 		} else {
@@ -94,12 +94,12 @@ public class Text {
 		return result;
 	}
 	
-	public static ArrayList<String> getTextWithAllSearchWords(Text[] texts, String[] words) {
+	public static ArrayList<String> getTextWithAllSearchWords(TitledText[] texts, String[] words) {
 		ArrayList<String> result = new ArrayList<>(); 
 		if ( (texts == null) || (words == null) ) {
-			return null;
+			return result;
 		}
-		for (Text aText : texts) {
+		for (TitledText aText : texts) {
 			if (aText.containsAllSearchWords(words)) {
 				String classType = aText.getClass().getSimpleName();
 				result.add(classType+" \""+aText.getTitle()+"\"");
@@ -109,10 +109,10 @@ public class Text {
 		return result;
 	}
 	
-	public static int printTextWithAllSearchWords(Text[] texts, String[] words) {
+	public static int printTextWithAllSearchWords(TitledText[] texts, String[] words) {
 		ArrayList<String> result = null; 
 		if ( (texts != null) && (words != null) ) {
-			result = Text.getTextWithAllSearchWords(texts, words);
+			result = TitledText.getTextWithAllSearchWords(texts, words);
 			System.out.print("Total occurence of words ");
 			for (String i : words) {
 				System.out.print("\""+i+"\" ");;
@@ -122,7 +122,10 @@ public class Text {
 				System.out.println(i);
 			}
 		}
-		return result.size();
+		if (result != null) {
+			return result.size();
+		}
+		return 0;
 	}
 	
 	public static String readTextFromFile(String filePath) {
@@ -141,10 +144,10 @@ public class Text {
 	}
 	
 	public static void main(String[] args) {
-		String aText1 = Text.readTextFromFile("texts\\text1.txt");
-		String aText2 = Text.readTextFromFile("texts\\text2.txt");
-		String aText3 = Text.readTextFromFile("texts\\wiki1.txt");
-		String aText4 = Text.readTextFromFile("texts\\article1.txt");
+		String aText1 = TitledText.readTextFromFile("texts\\text1.txt");
+		String aText2 = TitledText.readTextFromFile("texts\\text2.txt");
+		String aText3 = TitledText.readTextFromFile("texts\\wiki1.txt");
+		String aText4 = TitledText.readTextFromFile("texts\\article1.txt");
 		Book[] books = new Book[5];
 		String[] chehov = {"А.П.Чехов"};
 		String[] rempel = {"Е.А.Ремпель"};
@@ -155,18 +158,18 @@ public class Text {
 		wikiArticles[0] = new WikiArticle("Чехов Антон Павлович", aText3, "https://ru.wikipedia.org/wiki/Чехов_Антон_Павлович");
 		Article article1 = new Article("Медицинская тема в творчестве А.П. Чехова", aText4, rempel, "Бюллетень медицинских интернет-конференций", 2015, "Том 5, №1");
 		
-		Text[] texts = {books[0], books[1], wikiArticles[0], article1};
+		TitledText[] texts = {books[0], books[1], wikiArticles[0], article1};
 		String[] words1 = {"Чехов"};
 		String[] words2 = {"человек", "говорит"};
 		String[] words3 = {"дети"};
 		String[] words4 = {"разговор"};
-		Text.printTextWithAllSearchWords(texts, words1);
+		TitledText.printTextWithAllSearchWords(texts, words1);
 		System.out.println();
-		Text.printTextWithAllSearchWords(texts, words2);
+		TitledText.printTextWithAllSearchWords(texts, words2);
 		System.out.println();
-		Text.printTextWithAllSearchWords(texts, words3);
+		TitledText.printTextWithAllSearchWords(texts, words3);
 		System.out.println();
-		Text.printTextWithAllSearchWords(texts, words4);
+		TitledText.printTextWithAllSearchWords(texts, words4);
 	
 	}
 }

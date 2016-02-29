@@ -3,7 +3,7 @@ package hometasks.WordSearch;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class WikiArticle extends Text {
+public class WikiArticle extends TitledText {
 	private String link;
 
 	public WikiArticle() {

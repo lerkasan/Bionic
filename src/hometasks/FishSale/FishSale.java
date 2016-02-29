@@ -7,7 +7,7 @@ import java.util.TreeMap;
 import hometasks.Exceptions.*;
 
 public class FishSale {
-	static double CONST_EXPENSES = 0.0567;
+	static double constEXPENSES = 0.0567;
 	private String fishName;
 	private double purchasePrice;
 	private double salePrice;
@@ -55,7 +55,7 @@ public class FishSale {
 	
 	public static void setConstExpenses(double constExpenses) throws WrongArgumentException {
 		if (constExpenses > 0) {
-		FishSale.CONST_EXPENSES = constExpenses;
+		FishSale.constEXPENSES = constExpenses;
 		} else {
 			throw new WrongArgumentException("ConstExpenses should be positive number.");
 		}
@@ -140,7 +140,7 @@ public class FishSale {
 	}
 	
 	public double getIncome() {
-		double income = this.weight*(this.salePrice - this.purchasePrice - FishSale.CONST_EXPENSES*this.purchaseDate.until(this.saleDate, ChronoUnit.DAYS));
+		double income = this.weight*(this.salePrice - this.purchasePrice - FishSale.constEXPENSES*this.purchaseDate.until(this.saleDate, ChronoUnit.DAYS));
 		int temp = (int)Math.round(income*100);
 		income = (double)temp/100;
 		return income;

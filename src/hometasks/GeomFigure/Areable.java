@@ -1,11 +1,9 @@
 package hometasks.GeomFigure;
 
 public interface Areable {
-	public default double getArea() {
-		return 0.0;
-	}
+	public double getArea();
 	
-	public static double getTotalAreable(Areable[] areables) {
+	public static double getTotalArea(Areable[] areables) {
 		double totalArea = 0.0;
 		for (Areable i: areables) {
 			if (i != null) {

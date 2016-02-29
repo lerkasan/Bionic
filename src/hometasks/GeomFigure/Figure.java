@@ -1,7 +1,7 @@
 package hometasks.GeomFigure;
 
-abstract class Figure {
-	abstract double getArea();
+public abstract class Figure {
+	public abstract double getArea();
 	
 	public static double getTotalArea(Figure[] figures) {
 		double totalArea = 0.0;
@@ -46,7 +46,7 @@ abstract class Figure {
 		areables[11] = new Circle(10.1);
 		areables[12] = new Circle(14.8);
 		areables[13] = new Circle(6.38);
-		System.out.println("Total area is " + Areable.getTotalAreable(areables));
+		System.out.println("Total area is " + Areable.getTotalArea(areables));
 	}
 	
 }
