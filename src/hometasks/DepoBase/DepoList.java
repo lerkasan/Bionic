@@ -1,6 +1,8 @@
 package hometasks.DepoBase;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 import java.time.*;
 
 public class DepoList {
@@ -22,6 +24,13 @@ public class DepoList {
 			totalSum += depo.getSum();
 		}
 		return totalSum;
+	}
+	
+	public static void main(String[] args) {
+		DepoList list = new DepoList();
+		//ArrayList<DepoBase> list;
+		list.init();
+		//Collections.sort(list);
 	}
 
 }

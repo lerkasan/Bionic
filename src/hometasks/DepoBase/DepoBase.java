@@ -3,7 +3,7 @@ package hometasks.DepoBase;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 
-public class DepoBase implements InterestInterface, Cloneable {
+public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBase> {
 	protected LocalDate startDate;
 	protected int dayLong;
 	protected double sum;
@@ -89,5 +89,32 @@ public class DepoBase implements InterestInterface, Cloneable {
 		double dayCf = start.until(maturity, ChronoUnit.DAYS) + 1;
         double interest = sum * (interestRate / 100.0) * (dayCf / daysInYear);	
         return interest;
-	}	
+	}
+	
+	@Override 
+	public boolean equals(DepoBase other) {
+		if (this == other) {  //How to implement? Equality tests should not be made with floating point values
+        	return true;
+        }
+        if (other == null) {
+        	return false;
+        }
+        if (this.getClass() != other.getClass()) {
+        	return false;
+        }
+        DepoBase depoObj = (DepoBase)other;
+		boolean equal = (this.getInterest() == depoObj.getInterest());
+		return equal;
+	}
+	
+	@Override
+	public int compareTo(DepoBase other) {
+		if (this.getInterest() - other.getInterest() > 0) {
+			return 1;
+		} else if (this.getInterest() - other.getInterest() < 0) {
+			return -1;
+		}
+		return 0;
+	}
+	
 }

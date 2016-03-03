@@ -12,6 +12,4 @@ public class DepoListTest {
 	     list.init();
 	     assertEquals(73000.0, list.getPrincipal(), 0.00005);
 	}
-
-
 }
