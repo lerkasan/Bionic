@@ -1,5 +1,6 @@
 package hometasks.GeomFigure;
 
+@FunctionalInterface
 public interface Areable {
 	public double getArea();
 	

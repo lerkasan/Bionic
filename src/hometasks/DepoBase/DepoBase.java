@@ -89,5 +89,5 @@ public class DepoBase implements InterestInterface, Cloneable {
 		double dayCf = start.until(maturity, ChronoUnit.DAYS) + 1;
         double interest = sum * (interestRate / 100.0) * (dayCf / daysInYear);	
         return interest;
-	}
+	}	
 }
