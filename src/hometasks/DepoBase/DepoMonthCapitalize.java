@@ -1,7 +1,8 @@
 package hometasks.DepoBase;
 
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class DepoMonthCapitalize extends DepoBase implements InterestInterface {
 
@@ -13,51 +14,30 @@ public class DepoMonthCapitalize extends DepoBase implements InterestInterface {
 		super(sum, interestRate, startDate, dayLong);
 	}
 	
-	@Override
-	public double getInterest(){
-		double interest = 0.0;          // проценты за текущий период
-		double capital = 0.0;           // начисленные проценты
-		double tempSum = sum;
-		
-		LocalDate beginPeriod = startDate;
-		LocalDate start = beginPeriod;
-		LocalDate end = start.plusDays(dayLong);
-		LocalDate endPeriod = beginPeriod;
-
-		while (true){
-            beginPeriod = endPeriod.plusDays(1);
-			endPeriod = beginPeriod.plusMonths(1);
-			endPeriod = LocalDate.of(endPeriod.getYear(), endPeriod.getMonth(), 1);
-            endPeriod = endPeriod.minusDays(1);
-			if (endPeriod.isAfter(end)) {
-				break;
-			}
-			interest = calculateInterest(beginPeriod, endPeriod);
-			capital += interest;
-			//System.out.println("cap = " + capital + "   interest = " + interest + "  beginPeriod=" + beginPeriod + "  endPeriod= " + endPeriod);
-			sum += interest;
-		}
-		interest = calculateInterest(beginPeriod, end);
-		capital += interest;
-		//System.out.println("cap = " + capital + "   interest = " + interest + "  beginPeriod=" + beginPeriod + "  endPeriod= " + endPeriod);
-		sum = tempSum;
-		return capital;
+	public DepoMonthCapitalize(DepoMonthCapitalize depo) { 
+		super(depo);
 	}
 	
 	@Override
-	public double calculateInterest(LocalDate start, LocalDate maturity){
-		int startYear = start.getYear();
-		int maturityYear = maturity.getYear();
-		if (startYear != maturityYear){
-			IllegalArgumentException depoException = new IllegalArgumentException("Different years for start and maturity dates");
-			throw depoException;
+	public double getInterest(){
+		double complexInterest = 0.0;
+		DepoBase temp = new DepoBase(this);
+		TreeMap<LocalDate, Integer> days = temp.divideDaysToMonths();
+
+		for (Map.Entry<LocalDate, Integer> entry : days.entrySet()) {
+			//System.out.println("Start: "+entry.getKey()+" Days: "+entry.getValue());
+			temp.setStartDate(entry.getKey());
+			temp.setDayLong(entry.getValue());
+			double newSum = temp.getSum()+temp.getInterest();
+			int tmp = (int)Math.round(newSum*100);
+			newSum = (double)tmp/100;
+			temp.setSum(newSum);
 		}
-		int daysInYear = 365;
-		if (start.isLeapYear()){
-			daysInYear = 366;
-		}
-		double dayCf = start.until(maturity, ChronoUnit.DAYS) + 1;
-        double interest = sum * (interestRate / 100.0) * (dayCf / daysInYear);	
-        return interest;
+		complexInterest = temp.getSum() - this.getSum();
+		int tmp = (int)Math.round(complexInterest*100);
+		complexInterest = (double)tmp/100;
+		//System.out.println("Sum with interest: " + temp.getSum() + " Complex interest: " + complexInterest);
+		return complexInterest;
 	}
+
 }

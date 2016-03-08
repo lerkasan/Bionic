@@ -14,31 +14,22 @@ public class DepoBarrier extends DepoBase implements InterestInterface {
 		super(sum, interestRate, startDate, dayLong);
 	}
 	
+	public DepoBarrier(DepoBarrier depo) { 
+		super(depo);
+	}
+	
 	@Override
 	public double getInterest(){
-		double localRate = interestRate;
-		if (sum > MIDDLE_SUM){
+		double interestRate = this.getInterestRate();
+		if (this.getSum() > MIDDLE_SUM){
 			interestRate++;
 		}
-		if (sum > UPPER_SUM){
+		if (this.getSum() > UPPER_SUM){
 			interestRate++;
 		}
-		double interest = 0.0;
-		LocalDate start = startDate;
-		LocalDate maturity = start.plusDays(dayLong);
-		int startYear = start.getYear();
-		int maturityYear = maturity.getYear();
-		start = start.plusDays(1);
-		if (startYear == maturityYear){
-			interest = calculateInterest(start, maturity);
-		} else {
-			LocalDate endOfYear = LocalDate.of(startYear, 12, 31);
-			interest = calculateInterest(start, endOfYear);
-			LocalDate beginOfYear = endOfYear.plusDays(1);
-			interest += calculateInterest(beginOfYear, maturity);
-		}
-		interestRate = localRate;
-		return interest;
+		DepoBase depo = new DepoBase(this);
+		depo.setInterestRate(interestRate);
+		return depo.getInterest();
 	}
 
 }

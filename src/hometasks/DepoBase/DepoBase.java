@@ -2,16 +2,31 @@ package hometasks.DepoBase;
 
 import java.time.*;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.TreeMap;
 
 public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBase> {
-	protected LocalDate startDate;
-	protected int dayLong;
-	protected double sum;
-	protected double interestRate;
+	private LocalDate startDate;
+	private int dayLong;
+	private double sum;
+	private double interestRate;
+
+	public static class DepoBySumComparator implements Comparator<DepoBase> {
+
+		public int compare(DepoBase depo1, DepoBase depo2) {
+			if (depo1.getSum() > depo2.getSum()) {
+				return 1;
+			}
+			if (depo1.getSum() < depo2.getSum()) {
+				return -1;
+			}
+			return 0;
+		}
+	}
 
 	public DepoBase() {
 	}
-	
+
 	public DepoBase(double sum, double interestRate, LocalDate startDate, int dayLong) {
 		this.sum = sum;
 		this.interestRate = interestRate;
@@ -19,94 +34,129 @@ public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBa
 		this.dayLong = dayLong;
 	}
 	
-	/*public DepoBase clone() throws CloneNotSupportedException {
-		DepoBase cln = (DepoBase)super.clone();
-		cln.startDate = (LocalDate)startDate.clone();
-		return cln;
-	}*/
-	
-	public LocalDate getStartDate(){
+	public DepoBase(DepoBase depo) {
+		this.sum = depo.getSum();
+		this.interestRate = depo.getInterestRate();
+		this.startDate = depo.getStartDate();
+		this.dayLong = depo.getDayLong();
+	}
+
+	/*
+	 * public DepoBase clone() throws CloneNotSupportedException { DepoBase cln
+	 * = (DepoBase)super.clone(); cln.startDate = (LocalDate)startDate.clone();
+	 * return cln; }
+	 */
+
+	public LocalDate getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(LocalDate value){
+
+	public void setStartDate(LocalDate value) {
 		startDate = value;
 	}
-	
-	public int getDayLong(){
+
+	public int getDayLong() {
 		return dayLong;
 	}
-	public void setDayLong(int value){
+
+	public void setDayLong(int value) {
 		dayLong = value;
 	}
-	
-	public double getSum(){
+
+	public double getSum() {
 		return sum;
 	}
-	public void setSum(double value){
+
+	public void setSum(double value) {
 		sum = value;
 	}
-	
-	public double getInterestRate(){
+
+	public double getInterestRate() {
 		return interestRate;
 	}
-	public void setInterestRate(double value){
+
+	public void setInterestRate(double value) {
 		interestRate = value;
 	}
 	
-	public double getInterest(){
-		double interest = 0.0;
-		LocalDate start = startDate;
-		LocalDate maturity = start.plusDays(dayLong);
-		int startYear = start.getYear();
-		int maturityYear = maturity.getYear();
-		start = start.plusDays(1);
-		if (startYear == maturityYear){
-			interest = calculateInterest(start, maturity);
-		} else {
-			LocalDate endOfYear = LocalDate.of(startYear, 12, 31);
-			interest = calculateInterest(start, endOfYear);
-			LocalDate beginOfYear = endOfYear.plusDays(1);
-			interest += calculateInterest(beginOfYear, maturity);
+	public boolean isBelowListMinimalSum() {
+		return this.sum < DepoList.MINIMAL_SUM;
+	}
+
+	public double getInterest() {
+		// interest = sum * (interestRate / 100.0) * (days/365 or days/366)
+		int[] dayLongByYear; // index is offset of year to openYear, value is
+								// days of dayLong in certain year;
+		double[] coef; // days/365 or days/366
+		double coefSum = 0.0;
+		LocalDate endOfYear;
+		LocalDate startDate = this.startDate;
+		LocalDate closeDate = this.startDate.plusDays(this.dayLong);
+		int closeYear = closeDate.getYear();
+		int openYear = this.startDate.getYear();
+		dayLongByYear = new int[closeYear - openYear + 1];
+		coef = new double[closeYear - openYear + 1];
+		for (int i = 0; i <= closeYear - openYear; i++) {
+			endOfYear = LocalDate.of(openYear + i, 12, 31);
+			if (closeDate.isAfter(endOfYear)) {
+				dayLongByYear[i] = (int) startDate.until(endOfYear, ChronoUnit.DAYS);
+				startDate = endOfYear;
+			} else {
+				dayLongByYear[i] = (int) startDate.until(closeDate, ChronoUnit.DAYS);
+			}
+			coef[i] = 1.0 * dayLongByYear[i] / endOfYear.lengthOfYear();
+			coefSum += coef[i];
 		}
+		double interest = this.sum * (this.interestRate / 100.0) * (coefSum);
+		int temp = (int) Math.round(interest * 100);
+		interest = (double) temp / 100;
 		return interest;
 	}
 	
-	public double GetInterest(){
-		return 0.0;
+	protected TreeMap<LocalDate, Integer> divideDaysToMonths() {
+		DepoBase temp = new DepoBase(this);
+		TreeMap<LocalDate, Integer> daysLong = new TreeMap<>();
+		int currentMonthDays = 0;
+		LocalDate closeDate = temp.startDate.plusDays(temp.dayLong);
+		LocalDate currentOpenDate = temp.getStartDate().plusDays(1);
+		LocalDate nextOpenDate = currentOpenDate.plusMonths(1);
+		nextOpenDate = LocalDate.of(nextOpenDate.getYear(), nextOpenDate.getMonthValue(), 1);
+		//System.out.println("Starts: " + currentOpenDate + " Ends: " + closeDate + " Days long: " + temp.getDayLong() + " Starting sum: " + temp.getSum());
+		
+		if (closeDate.isBefore(nextOpenDate)) {
+			daysLong.put(currentOpenDate, temp.dayLong);
+		//	System.out.println("Starts: " + currentOpenDate + " Days long: " + temp.getDayLong() + " Starting sum: " + temp.getSum());
+			return daysLong;
+		}
+		while (currentOpenDate.isBefore(closeDate)) {	
+			currentMonthDays = currentOpenDate.getMonth().length(currentOpenDate.isLeapYear());
+			currentMonthDays -= currentOpenDate.getDayOfMonth()-1;
+			daysLong.put(currentOpenDate, currentMonthDays);
+			nextOpenDate = LocalDate.of(currentOpenDate.getYear(), currentOpenDate.getMonthValue(), 1);
+			currentOpenDate = nextOpenDate.plusMonths(1);
+		}
+		currentOpenDate = currentOpenDate.minusMonths(1);
+		daysLong.put(currentOpenDate, closeDate.getDayOfMonth());
+		return daysLong;
 	}
 
-	public double calculateInterest(LocalDate start, LocalDate maturity){
-		int startYear = start.getYear();
-		int maturityYear = maturity.getYear();
-		if (startYear != maturityYear){
-			IllegalArgumentException depoException = new IllegalArgumentException("Different years for start and maturity dates");
-			throw depoException;
-		}
-		int daysInYear = 365;
-		if (start.isLeapYear()){
-			daysInYear = 366;
-		}
-		double dayCf = start.until(maturity, ChronoUnit.DAYS) + 1;
-        double interest = sum * (interestRate / 100.0) * (dayCf / daysInYear);	
-        return interest;
-	}
-	
-	@Override 
+	@Override
 	public boolean equals(DepoBase other) {
-		if (this == other) {  //How to implement? Equality tests should not be made with floating point values
-        	return true;
-        }
-        if (other == null) {
-        	return false;
-        }
-        if (this.getClass() != other.getClass()) {
-        	return false;
-        }
-        DepoBase depoObj = (DepoBase)other;
+		if (this == other) { // How to implement? Equality tests should not be
+								// made with floating point values
+			return true;
+		}
+		if (other == null) {
+			return false;
+		}
+		if (this.getClass() != other.getClass()) {
+			return false;
+		}
+		DepoBase depoObj = (DepoBase) other;
 		boolean equal = (this.getInterest() == depoObj.getInterest());
 		return equal;
 	}
-	
+
 	@Override
 	public int compareTo(DepoBase other) {
 		if (this.getInterest() - other.getInterest() > 0) {
@@ -116,5 +166,5 @@ public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBa
 		}
 		return 0;
 	}
-	
+
 }
