@@ -13,6 +13,10 @@ public class DepoList {
 	public static final double MINIMAL_SUM = 10000.0;
 	private ArrayList<DepoBase> list;
 	
+	public DepoList() {
+		this.list = new ArrayList<DepoBase>();
+	}
+	
 	public ArrayList<DepoBase> getList() {
 		return list;
 	}
