@@ -68,7 +68,7 @@ public class SimpleDepo {
 
 	public double getInterest() {
 		//interest =  sum * (interestRate / 100.0) * (days/365 or days/366)
-		int[] dayInYear; //index is offset of year to openYear, value is days of dayLong in certain year;
+		int[] dayLongByYear; //index is offset of year to openYear, value is days of dayLong in certain year;
 		double[] coef; // days/365 or days/366
 		double coefSum = 0.0;
 		double interestRate = this.interestRate;
@@ -83,21 +83,17 @@ public class SimpleDepo {
 		LocalDate closeDate = this.openDate.plusDays(this.dayLong);
 		int closeYear = closeDate.getYear();
 		int openYear = this.openDate.getYear();
-		dayInYear = new int[closeYear - openYear + 1];
+		dayLongByYear = new int[closeYear - openYear + 1];
 		coef = new double[closeYear - openYear + 1];
 		for (int i = 0; i <= closeYear - openYear; i++) {
 			endOfYear = LocalDate.of(openYear+i, 12, 31); 
 			if (closeDate.isAfter(endOfYear)) {
-				dayInYear[i] = (int)startDate.until(endOfYear, ChronoUnit.DAYS);
+				dayLongByYear[i] = (int)startDate.until(endOfYear, ChronoUnit.DAYS);
 				startDate = endOfYear;
 			} else {
-				dayInYear[i] = (int)startDate.until(closeDate, ChronoUnit.DAYS);
+				dayLongByYear[i] = (int)startDate.until(closeDate, ChronoUnit.DAYS);
 			}
-			if (endOfYear.isLeapYear()) {
-				coef[i] = dayInYear[i]/366.0;
-			} else {
-				coef[i] = dayInYear[i]/365.0;
-			}
+			coef[i] = 1.0*dayLongByYear[i]/endOfYear.lengthOfYear();
 			coefSum+=coef[i];
 		}
 		double interest = this.sum*(interestRate/100.0)*(coefSum);
