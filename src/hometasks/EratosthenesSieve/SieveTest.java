@@ -1,4 +1,4 @@
-package EratosthenesSieve;
+package hometasks.EratosthenesSieve;
 
 import static org.junit.Assert.*;
 
