@@ -9,7 +9,7 @@ public class Sieve {
 	private ArrayList<Integer> primes;
 	
 	public Sieve() {
-		this.limit = 0;
+		this.limit = 0; 
 		this.primes = new ArrayList<Integer>();
 	}
 	
@@ -18,7 +18,7 @@ public class Sieve {
 			throw new WrongArgumentException("Limit argument must be a natural number greater than 1.");
 		}
 		this.limit = limit;
-		this.primes = new ArrayList<Integer>(limit);
+		this.primes = new ArrayList<Integer>(limit-1);
 		for (int i = 2; i <= limit; i++) {
 			this.primes.add(i);
 		}
@@ -31,20 +31,23 @@ public class Sieve {
 		if (this.primes.size() != this.limit-1) {
 			return this.primes;
 		}
-		ArrayList<Integer> primes = new ArrayList<Integer>(this.primes);
-				
-		primes.stream()
-			.filter(divisor -> divisor <= Math.sqrt(this.limit)+1)
-			.forEach(divisor -> { 
-				this.primes.removeIf(numb -> (numb > divisor) && (numb % divisor == 0)); 
-				System.out.println("Removing divided by "+divisor+": "+this.primes);
-				});
-		System.out.println();
+		//ArrayList<Integer> primes = new ArrayList<Integer>(this.primes);
+		try {		
+			this.primes.stream()
+				.filter(divisor -> divisor <= (int)Math.sqrt(this.limit)+1)
+				.forEach(divisor -> {
+					this.primes.removeIf(numb -> (numb > divisor) && (numb % divisor == 0)); 
+					System.out.println("Removing divided by "+divisor+": "+this.primes);
+					});
+			System.out.println();
+		}
+		catch (NullPointerException e) {	
+		}
 		return this.primes;
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Result: " + new Sieve(50).getPrimes());
+		System.out.println("Result: " + new Sieve(51).getPrimes());
 	}
 
 }
