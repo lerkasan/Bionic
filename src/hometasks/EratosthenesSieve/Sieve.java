@@ -35,13 +35,16 @@ public class Sieve {
 				
 		primes.stream()
 			.filter(divisor -> divisor <= Math.sqrt(this.limit)+1)
-			.forEach(divisor -> this.primes.removeIf(numb -> (numb > divisor) && (numb % divisor == 0)));
-		
+			.forEach(divisor -> { 
+				this.primes.removeIf(numb -> (numb > divisor) && (numb % divisor == 0)); 
+				System.out.println("Removing divided by "+divisor+": "+this.primes);
+				});
+		System.out.println();
 		return this.primes;
 	}
 
 	public static void main(String[] args) {
-		System.out.println(new Sieve(100000).getPrimes());
+		System.out.println("Result: " + new Sieve(50).getPrimes());
 	}
 
 }
