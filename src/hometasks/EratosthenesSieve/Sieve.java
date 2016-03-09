@@ -1,6 +1,9 @@
 package hometasks.EratosthenesSieve;
 
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Objects;
+import java.util.stream.IntStream;
 
 import hometasks.Exceptions.WrongArgumentException;
 
@@ -19,9 +22,13 @@ public class Sieve {
 		}
 		this.limit = limit;
 		this.primes = new ArrayList<Integer>(limit-1);
-		for (int i = 2; i <= limit; i++) {
+		/*for (int i = 2; i <= limit; i++) {
 			this.primes.add(i);
-		}
+		}*/
+		IntStream.iterate(2, i -> i+1)
+			.limit(limit-1)
+			.forEach(this.primes::add);
+		//System.out.println(this.primes);
 	}
 	
 	public ArrayList<Integer> getPrimes() {
@@ -34,6 +41,7 @@ public class Sieve {
 		//ArrayList<Integer> primes = new ArrayList<Integer>(this.primes);
 		try {		
 			this.primes.stream()
+				.filter(Objects::nonNull)
 				.filter(divisor -> divisor <= (int)Math.sqrt(this.limit)+1)
 				.forEach(divisor -> {
 					this.primes.removeIf(numb -> (numb > divisor) && (numb % divisor == 0)); 
@@ -41,7 +49,7 @@ public class Sieve {
 					});
 			System.out.println();
 		}
-		catch (NullPointerException e) {	
+		catch (ConcurrentModificationException e) {
 		}
 		return this.primes;
 	}
