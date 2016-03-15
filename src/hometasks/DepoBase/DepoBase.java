@@ -156,6 +156,10 @@ public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBa
 		boolean equal = (this.getInterest() == depoObj.getInterest());
 		return equal;
 	}
+	
+	public double getIncome() {
+		return getInterest();
+	}
 
 	@Override
 	public int compareTo(DepoBase other) {
