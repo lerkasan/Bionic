@@ -3,13 +3,37 @@ package hometasks.DepoBase;
 import java.util.ArrayList;
 
 public class DealList<T extends DepoBase> {
-	T deal;
+	ArrayList<T> deals;
 	
 	public DealList() {
 	}
 	
-	public DealList(T deal) {
-		this.deal = deal;
+	public DealList(ArrayList<T> deal) {
+		this.deals = deal;
+	}
+
+	public ArrayList<T> getDeals() {
+		return deals;
+	}
+
+	public void setDeals(ArrayList<T> deals) {
+		this.deals = deals;
+	}
+	
+	public void addDeal(T deal) {
+		deals.add(deal);
+	}
+	
+	public void removeDeal(T deal) {
+		deals.remove(deal);
+	}
+	
+	public double getIncome() {
+		double sum = 0.0;
+		for ( T i : deals ) {
+			sum += i.getIncome();
+		}
+		return sum;
 	}
 
 	public int compareTo(T other) {

@@ -98,7 +98,6 @@ public class ListInsertion {
 		list1.removeFromList();
 		long after = System.nanoTime();
 		long deltaArrayList = after - before;
-		// System.out.println(text1);
 		System.out.println("\n" + n + " numbers:");
 		System.out.println("ArrayList remove() execution time: "
 				+ (double) ((int) Math.round(1000000 * (deltaArrayList * 1.0) / 1000000000)) / 1000000 + " seconds or "
@@ -109,7 +108,6 @@ public class ListInsertion {
 		list1.removeFromList();
 		after = System.nanoTime();
 		long deltaLinkedList = after - before;
-		// System.out.println(text2);
 		System.out.println("LinkedList remove() execution time: "
 				+ (double) ((int) Math.round(1000000 * (deltaLinkedList * 1.0) / 1000000000)) / 1000000 + " seconds or "
 				+ deltaLinkedList + " nanoseconds");

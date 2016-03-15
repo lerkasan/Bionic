@@ -47,7 +47,7 @@ public class Sieve {
 				.filter(divisor -> divisor <= (int)Math.sqrt(this.limit)+1)
 				.forEach(divisor -> {
 					this.primes.removeIf(numb -> (numb > divisor) && (numb % divisor == 0)); 
-				//	System.out.println("Removing divided by "+divisor+": "+this.primes);
+					System.out.println("Removing divided by "+divisor+": "+this.primes);
 					});
 			System.out.println();
 		}
@@ -59,6 +59,20 @@ public class Sieve {
 	public ArrayList<Integer> getPrimes2() {
 		for (int divisor=2; divisor <= (int)Math.sqrt(this.limit)+1; divisor++) {
 			//for (Iterator<Integer> it = this.primes.iterator(); it.hasNext(); ) {
+			for (Iterator<Integer> iter = this.primes.iterator(); iter.hasNext(); ) {
+				int numb = iter.next();
+				if ((numb > divisor) && (numb % divisor == 0)) {
+					iter.remove();
+				}
+			}
+		}
+		//	System.out.println("Removing divided by "+divisor+": "+this.primes);
+		return this.primes;
+	}
+	
+	public ArrayList<Integer> getPrimes3() {
+		for (Iterator<Integer> it = this.primes.iterator(); it.hasNext(); ) {
+			int divisor = it.next();
 			for (Iterator<Integer> iter = this.primes.iterator(); iter.hasNext(); ) {
 				int numb = iter.next();
 				if ((numb > divisor) && (numb % divisor == 0)) {
@@ -110,8 +124,8 @@ public class Sieve {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Result: " + new Sieve(51).getPrimes());
-		System.out.println("Result: " + new Sieve(51).getPrimes2());
+		System.out.println("Result - stream implementation: " + new Sieve(51).getPrimes());
+		/*System.out.println("Result - cycle implementation: " + new Sieve(1510).getPrimes2());
 		Sieve sieve1 = new Sieve(1000000);
 		long before = System.nanoTime();
 		sieve1.getPrimes();
@@ -125,7 +139,7 @@ public class Sieve {
 		for (int i = 10; i <=100000; i *= 10) {
 			Sieve.comparePerformance(i);
 		} 
-		//System.out.println("Result: " + new Sieve(1000000).getPrimes());
+		//System.out.println("Result: " + new Sieve(1000000).getPrimes());*/
 	}
 
 }
