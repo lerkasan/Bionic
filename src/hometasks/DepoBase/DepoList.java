@@ -21,9 +21,12 @@ public class DepoList {
 		return list;
 	}
 
-	public void setList(ArrayList<DepoBase> list) {
+	public void setList(ArrayList<DepoBase> list) throws NullArgumentException {
 		if (list != null) {
-			this.list = list;
+			this.list = new ArrayList<DepoBase>(list.size());
+			for (DepoBase depo : list) {
+				this.list.add((DepoBase) depo.clone());
+			}
 		} else {
 			throw new NullArgumentException("List argument is null");
 		}

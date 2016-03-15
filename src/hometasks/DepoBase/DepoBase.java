@@ -5,7 +5,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
 import java.util.TreeMap;
 
-public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBase> {
+public class DepoBase implements InterestInterface, Incomable, Cloneable, Comparable<DepoBase> {
 	private LocalDate startDate;
 	private int dayLong;
 	private double sum;
@@ -41,12 +41,10 @@ public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBa
 		this.dayLong = depo.getDayLong();
 	}
 
-	/*
-	 * public DepoBase clone() throws CloneNotSupportedException { DepoBase cln
-	 * = (DepoBase)super.clone(); cln.startDate = (LocalDate)startDate.clone();
-	 * return cln; }
-	 */
-
+	public DepoBase clone() { 
+		  return new DepoBase(sum, interestRate, startDate, dayLong);
+	}
+	 
 	public LocalDate getStartDate() {
 		return startDate;
 	}
@@ -163,9 +161,9 @@ public class DepoBase implements InterestInterface, Cloneable, Comparable<DepoBa
 
 	@Override
 	public int compareTo(DepoBase other) {
-		if (this.getInterest() - other.getInterest() > 0) {
+		if (this.getIncome() - other.getIncome() > 0) {
 			return 1;
-		} else if (this.getInterest() - other.getInterest() < 0) {
+		} else if (this.getIncome() - other.getIncome() < 0) {
 			return -1;
 		}
 		return 0;

@@ -93,4 +93,13 @@ public class DepoTest {
 		
 		assertEquals(1763.43, totalInterest, 0.00001);
 	}
+	
+	@Test
+	public void compareToTest() {
+		DepoBarrier depo1 = new DepoBarrier(2000,14,LocalDate.of(2013,9,8),80);
+		DepoMonthCapitalize depo2 = new DepoMonthCapitalize(2000,16.5,LocalDate.of(2013,9,8),180);
+		assertEquals(-1, depo1.compareTo(depo2));
+		assertEquals(1, depo2.compareTo(depo1));
+		assertEquals(0, depo1.compareTo(depo1));	
+	}
 }
