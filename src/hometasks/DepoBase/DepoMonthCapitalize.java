@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class DepoMonthCapitalize extends DepoBase implements InterestInterface {
+	private static final long serialVersionUID = -8808880416070269256L;
 
 	public DepoMonthCapitalize() { 
 		super();

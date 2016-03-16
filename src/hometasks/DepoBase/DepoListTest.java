@@ -1,8 +1,7 @@
 package hometasks.DepoBase;
 
 import static org.junit.Assert.*;
-
-import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -29,9 +28,24 @@ public class DepoListTest {
 	public void createListWithoutMinimalSumTest() {
 	     DepoList depoList = new DepoList();
 	     depoList.init();
-	     ArrayList<DepoBase> arrayList = depoList.createListWithoutMinimalSum();
+	     List<DepoBase> arrayList = depoList.createListWithoutMinimalSum();
 	     assertEquals(0, arrayList.stream()
 	    		 .filter(d -> d.getSum() < DepoList.MINIMAL_SUM)
 	    		 .count());
+	}
+	
+	@Test
+	public void saveAndReadSerializedTest() {
+		DepoList depoList1 = new DepoList();
+		DepoList depoList2 = new DepoList();
+		depoList1.init();
+		depoList2.init();
+		depoList1.saveSerializedToFile("D:\\test\\serializedDepo1.txt");
+		depoList2.saveSerializedToFile("D:\\test\\serializedDepo2.txt");
+		DepoList depoList3 = DepoList.readSerializedFromFile("D:\\test\\serializedDepo1.txt");
+		DepoList depoList4 = DepoList.readSerializedFromFile("D:\\test\\serializedDepo2.txt");
+		assertEquals(depoList1, depoList3);
+		assertEquals(depoList2, depoList4);
+
 	}
 }

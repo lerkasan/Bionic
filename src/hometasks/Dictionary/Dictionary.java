@@ -1,23 +1,26 @@
 package hometasks.Dictionary;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
+
 import hometasks.Exceptions.*;
 
 public class Dictionary {
-	private HashMap<String, String> words;
+	private Map<String, String> words;
 	
 	public Dictionary() {
-		this.words = new HashMap<String, String>();
+		this.words = new HashMap<>();
 	}
 
-	public HashMap<String, String> getWords() {
+	public Map<String, String> getWords() {
 		return words;
 	}
 
-	public void setWords(HashMap<String, String> words) {
+	public void setWords(Map<String, String> words) {
 		if (words == null) {
 			throw new NullArgumentException();
 		}
@@ -64,6 +67,9 @@ public class Dictionary {
             	}
             }	   
 		} 
+        catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
         catch (IOException e) {
         	e.printStackTrace();
         }

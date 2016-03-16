@@ -1,7 +1,6 @@
 package hometasks.DepoBase;
 
 public interface InterestInterface {
-	public double getInterest() throws IllegalArgumentException;
-
-	boolean equals(DepoBase other);
+	public double getInterest();
+	boolean equals(Object other);
 }

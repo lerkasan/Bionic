@@ -1,0 +1,5 @@
+|   Sum:  2500,00   |   Interest rate: 18,00   |   Start date:    09/08/13   |   Interest:   75,21   |   Days long:    61   |
+|   Sum:  5500,00   |   Interest rate: 15,30   |   Start date:    11/12/13   |   Interest:   69,16   |   Days long:    30   |
+|   Sum: 10000,00   |   Interest rate: 21,00   |   Start date:    02/01/12   |   Interest: 1038,52   |   Days long:   181   |
+|   Sum: 12000,00   |   Interest rate: 26,00   |   Start date:    07/12/13   |   Interest:  777,86   |   Days long:    91   |
+|   Sum: 43000,00   |   Interest rate: 19,56   |   Start date:    12/18/11   |   Interest: 8503,54   |   Days long:   370   |

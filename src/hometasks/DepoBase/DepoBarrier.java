@@ -3,6 +3,7 @@ package hometasks.DepoBase;
 import java.time.*;
 
 public class DepoBarrier extends DepoBase implements InterestInterface {
+	private static final long serialVersionUID = 6042481155319532864L;
 	public static final double MIDDLE_SUM = 50000.0;
 	public static final double UPPER_SUM = 100000.0;
 	

@@ -1,18 +1,22 @@
 package hometasks.DepoBase;
 
+import java.io.Serializable;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
+import java.util.Formatter;
 import java.util.TreeMap;
 
-public class DepoBase implements InterestInterface, Incomable, Cloneable, Comparable<DepoBase> {
+public class DepoBase implements InterestInterface, Incomable, Cloneable, Comparable<DepoBase>, Serializable {
+	private static final long serialVersionUID = -8434891959098838452L;
 	private LocalDate startDate;
 	private int dayLong;
 	private double sum;
 	private double interestRate;
 
 	public static class DepoBySumComparator implements Comparator<DepoBase> {
-
+		
+		@Override
 		public int compare(DepoBase depo1, DepoBase depo2) {
 			if (depo1.getSum() > depo2.getSum()) {
 				return 1;
@@ -40,7 +44,17 @@ public class DepoBase implements InterestInterface, Incomable, Cloneable, Compar
 		this.startDate = depo.getStartDate();
 		this.dayLong = depo.getDayLong();
 	}
-
+	
+	@Override
+	public String toString() {
+		Formatter aFormat = new Formatter();
+		String result = aFormat.format("|   Sum: %1$8.2f   |   Interest rate: %2$5.2f   |   Start date: %3$11tD   |   Interest: %4$7.2f   |   Days long: %5$5d   |", 
+				getSum(), getInterestRate(), getStartDate(), getInterest(), getDayLong()).toString();
+		aFormat.close();
+		return result;
+	}
+	
+	@Override
 	public DepoBase clone() { 
 		  return new DepoBase(sum, interestRate, startDate, dayLong);
 	}
@@ -138,8 +152,47 @@ public class DepoBase implements InterestInterface, Incomable, Cloneable, Compar
 		return daysLong;
 	}
 
+	
+	
 	@Override
-	public boolean equals(DepoBase other) {
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + dayLong;
+		long temp;
+		temp = Double.doubleToLongBits(interestRate);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		temp = Double.doubleToLongBits(sum);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+
+	/*@Override //Generated
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		DepoBase other = (DepoBase) obj;
+		if (dayLong != other.dayLong)
+			return false;
+		if (Double.doubleToLongBits(interestRate) != Double.doubleToLongBits(other.interestRate))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		if (Double.doubleToLongBits(sum) != Double.doubleToLongBits(other.sum))
+			return false;
+		return true;
+	} */
+
+	@Override 
+	public boolean equals(Object other) {
 		if (this == other) { // How to implement? Equality tests should not be
 								// made with floating point values
 			return true;

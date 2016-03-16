@@ -3,7 +3,7 @@ package hometasks.DepoBase;
 import java.time.LocalDate;
 import hometasks.Exceptions.WrongArgumentException;
 
-public class TBill implements Incomable, Comparable<TBill> {
+public class TBill implements Incomable  { //Comparable<TBill>
 	private double  nominal;
 	private double price;
 	private int billsAmount;
@@ -25,6 +25,7 @@ public class TBill implements Incomable, Comparable<TBill> {
 		this.maturityDate = maturityDate;
 	}
 	
+	@Override
 	public TBill clone() { 
 		  return new TBill(nominal, price, billsAmount, maturityDate);
 	}
@@ -83,8 +84,8 @@ public class TBill implements Incomable, Comparable<TBill> {
 		return income;  
 	}
 	
-	@Override
-	public int compareTo(TBill other) {
+	//compareTo
+	public int compareIncome(TBill other) {
 		if (this.getIncome() - other.getIncome() > 0) {
 			return 1;
 		} else if (this.getIncome() - other.getIncome() < 0) {
