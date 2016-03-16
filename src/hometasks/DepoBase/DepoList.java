@@ -57,7 +57,7 @@ public class DepoList implements Serializable {
 	}
 	
 	public List<DepoBase> remove() {
-		for (Iterator<DepoBase> iter = this.getList().iterator(); iter.hasNext(); ) {
+		for (Iterator<DepoBase> iter = this.list.iterator(); iter.hasNext(); ) {
 			if (iter.next().isBelowListMinimalSum()) {
 				iter.remove();
 			}
@@ -95,6 +95,15 @@ public class DepoList implements Serializable {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		for (DepoBase depo : list) {
+			result.append(depo);
+		}
+		return result.toString();
+	}
 
 	public double getPrincipal() {
 		double totalSum = 0.0;
@@ -102,6 +111,14 @@ public class DepoList implements Serializable {
 			totalSum += depo.getSum();
 		}
 		return totalSum;
+	}
+	
+	public void sortDeposByInterest() {
+		Collections.sort(list);
+	}
+	
+	public void sortDeposBySum() {
+		Collections.sort(list, new DepoBase.DepoBySumComparator());
 	}
 	
 	public void saveReportToFile(String filePath) {
@@ -118,7 +135,7 @@ public class DepoList implements Serializable {
 		}*/
 		try (PrintWriter outputWriter = new PrintWriter(new FileWriter(filePath));) {
 			for (DepoBase i : list) {
-				outputWriter.println(i.toString());
+				outputWriter.println(i);
 			}
 		}
         catch (FileNotFoundException e) {
@@ -155,57 +172,53 @@ public class DepoList implements Serializable {
 	
 	public static void main(String[] args) {
 		DepoBarrier depo0 = new DepoBarrier(2000,14,LocalDate.of(2013,9,8),80);
-		System.out.println(depo0.toString());
+		System.out.println(depo0);
 		
 		DepoList depoList1 = new DepoList();
 		DepoList depoList2 = new DepoList();
 		depoList1.init();
 		depoList2.init();
-		
 		List<DepoBase> list = depoList1.getList();
-		Collections.sort(list);
+		
+		depoList1.sortDeposByInterest();
 		System.out.println("Ordered by interest:");
-		for (DepoBase i : list) {
-			System.out.format("sum = %1$8.2f   interest = %2$7.2f\n", i.getSum(), i.getInterest());
-		}
-		Collections.sort(list, new DepoBase.DepoBySumComparator());
+		System.out.println(depoList1);
+		depoList2.sortDeposBySum();
 		System.out.println("\nOrdered by sum:");
-		for (DepoBase i : list) {
-			System.out.format("sum = %1$8.2f   interest = %2$7.2f\n", i.getSum(), i.getInterest());
-		}
+		System.out.println(depoList2);
 		
 		list.sort((depo1, depo2) -> (int)(depo1.getSum() * 100 - depo2.getSum() * 100));
 		System.out.println("\nOrdered by sum with Lambda:");
 		for (DepoBase i : list) {
-			System.out.format("sum = %1$8.2f   interest = %2$7.2f\n", i.getSum(), i.getInterest());
+			System.out.print(i);
 		}
 		
 		depoList1.remove();
 		System.out.println("\nRemoval:");
-		for (DepoBase i : depoList1.getList()) {
-			System.out.format("sum = %1$8.2f   interest = %2$7.2f\n", i.getSum(), i.getInterest());
-		}
+		System.out.println(depoList1);
 		
 		List<DepoBase> list2 = depoList2.createListWithoutMinimalSum();
 		System.out.println("\nCollection Filtered:");
 		for (DepoBase i : list2) {
-			System.out.format("sum = %1$8.2f   interest = %2$7.2f\n", i.getSum(), i.getInterest());
+			System.out.print(i);
 		}
 		
-		depoList1.saveReportToFile("D:\\test\\depo1.txt");
-		depoList2.saveReportToFile("D:\\test\\depo2.txt");
+		depoList1.saveReportToFile("results\\depo1.txt");
+		depoList2.saveReportToFile("results\\depo2.txt");
 		List<DepoBase> sortedList1 = depoList1.getList();
 		Collections.sort(sortedList1);
 		depoList1.setList(sortedList1);
-		depoList1.saveReportToFile("D:\\test\\sortedDepo1.txt");
+		depoList1.saveReportToFile("results\\sortedDepo1.txt");
 		List<DepoBase> sortedList2 = depoList2.getList();
 		Collections.sort(sortedList2, new DepoBase.DepoBySumComparator());
 		depoList2.setList(sortedList2);
-		depoList2.saveReportToFile("D:\\test\\sortedDepo2.txt");
-		depoList1.saveSerializedToFile("D:\\test\\serializedDepo1.txt");
-		depoList2.saveSerializedToFile("D:\\test\\serializedDepo2.txt");
-		DepoList depoList3 = DepoList.readSerializedFromFile("D:\\test\\serializedDepo1.txt");
-		DepoList depoList4 = DepoList.readSerializedFromFile("D:\\test\\serializedDepo2.txt");
+		depoList2.saveReportToFile("results\\sortedDepo2.txt");
+		depoList1.saveSerializedToFile("results\\serializedDepo1.txt");
+		depoList2.saveSerializedToFile("results\\serializedDepo2.txt");
+		DepoList depoList3 = DepoList.readSerializedFromFile("results\\serializedDepo1.txt");
+		DepoList depoList4 = DepoList.readSerializedFromFile("results\\serializedDepo2.txt");
+		System.out.println("\nDepoList1 read from serialization:\n"+depoList3);
+		System.out.println("\nDepoList2 read from serialization:\n"+depoList4);
 	}
 
 }

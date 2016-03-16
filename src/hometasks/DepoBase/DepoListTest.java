@@ -40,12 +40,14 @@ public class DepoListTest {
 		DepoList depoList2 = new DepoList();
 		depoList1.init();
 		depoList2.init();
-		depoList1.saveSerializedToFile("D:\\test\\serializedDepo1.txt");
-		depoList2.saveSerializedToFile("D:\\test\\serializedDepo2.txt");
-		DepoList depoList3 = DepoList.readSerializedFromFile("D:\\test\\serializedDepo1.txt");
-		DepoList depoList4 = DepoList.readSerializedFromFile("D:\\test\\serializedDepo2.txt");
+		depoList1.saveSerializedToFile("results\\serializedDepo1.txt");
+		depoList2.saveSerializedToFile("results\\serializedDepo2.txt");
+		DepoList depoList3 = DepoList.readSerializedFromFile("results\\serializedDepo1.txt");
+		DepoList depoList4 = DepoList.readSerializedFromFile("results\\serializedDepo2.txt");
 		assertEquals(depoList1, depoList3);
+		assertEquals(depoList1.getList(), depoList3.getList());
 		assertEquals(depoList2, depoList4);
+		assertEquals(depoList2.getList(), depoList3.getList());
 
 	}
 }
