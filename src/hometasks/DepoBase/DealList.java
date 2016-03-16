@@ -1,6 +1,7 @@
 package hometasks.DepoBase;
 
 import java.util.ArrayList;
+//import java.util.Collections;
 import java.util.List;
 import hometasks.Exceptions.NullArgumentException;
 
@@ -77,6 +78,10 @@ public class DealList<T extends Incomable> {
 		}
 		return 0;
 	}
+	
+	/*public void sortDeposByIncome() {
+		Collections.sort((List<T>) deals);
+	}*/
 
 
 }
