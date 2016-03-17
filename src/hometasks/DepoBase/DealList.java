@@ -1,11 +1,11 @@
 package hometasks.DepoBase;
 
 import java.util.ArrayList;
-//import java.util.Collections;
+import java.util.Collections;
 import java.util.List;
 import hometasks.Exceptions.NullArgumentException;
 
-public class DealList<T extends Incomable> {
+public class DealList<T extends Incomable & Comparable<Incomable>> implements Comparable<T>{
 	List<T> deals;
 	
 	public DealList() {
@@ -21,7 +21,7 @@ public class DealList<T extends Incomable> {
 		List<T> newDeals = new ArrayList<>(deals.size());
 		for (T depo : deals) {
 			try {
-				newDeals.add((T) depo.clone());
+				newDeals.add((T) depo.cloneObj());
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
@@ -35,7 +35,7 @@ public class DealList<T extends Incomable> {
 			this.deals = new ArrayList<>(deals.size());
 			for (T depo : deals) {
 				try {
-					this.deals.add((T) depo.clone());
+					this.deals.add((T) depo.cloneObj());
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
 				}
@@ -78,10 +78,26 @@ public class DealList<T extends Incomable> {
 		}
 		return 0;
 	}
+
+	@Override
+	public int compareTo(T other) {
+		return compareIncome(other);
+	}
 	
-	/*public void sortDeposByIncome() {
-		Collections.sort((List<T>) deals);
-	}*/
+	public void sortDeposByIncome() {
+		Collections.sort(deals);
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder();
+		for (Incomable deal : deals) {
+			result.append(deal);
+		}
+		return result.toString();
+	}
+	
+	
 
 
 }

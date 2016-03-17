@@ -38,6 +38,11 @@ public class DealListTest {
 		assertEquals(0, list1.compareIncome(list1));
 		assertEquals(0, list3.compareIncome(depo1));
 		assertEquals(-1, list3.compareIncome(bill1));
+		
+		System.out.println(list1);
+		list1.sortDeposByIncome();
+		System.out.println("Sorted by Income/Interest:");
+		System.out.println(list1);
 	    
 	}
 

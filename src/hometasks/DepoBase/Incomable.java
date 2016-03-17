@@ -1,6 +1,7 @@
 package hometasks.DepoBase;
 
-public interface Incomable extends Cloneable{
+public interface Incomable extends Cloneable, Comparable<Incomable> {
 	public double getIncome();
-	public Object clone() throws CloneNotSupportedException;
+	public Incomable cloneObj() throws CloneNotSupportedException;
+	int compareTo(Incomable other);
 }

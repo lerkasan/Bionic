@@ -1,9 +1,11 @@
 package hometasks.DepoBase;
 
 import java.time.LocalDate;
+import java.util.Formatter;
+
 import hometasks.Exceptions.WrongArgumentException;
 
-public class TBill implements Incomable, Comparable<TBill>  {
+public class TBill implements Incomable, Cloneable  {
 	private double  nominal;
 	private double price;
 	private int billsAmount;
@@ -27,6 +29,11 @@ public class TBill implements Incomable, Comparable<TBill>  {
 	
 	@Override
 	public TBill clone() { 
+		  return new TBill(nominal, price, billsAmount, maturityDate);
+	}
+	
+	@Override
+	public TBill cloneObj() { 
 		  return new TBill(nominal, price, billsAmount, maturityDate);
 	}
 
@@ -84,7 +91,7 @@ public class TBill implements Incomable, Comparable<TBill>  {
 		return income;  
 	}
 	
-	public int compareIncome(TBill other) {
+	public int compareIncome(Incomable other) {
 		if (this.getIncome() - other.getIncome() > 0) {
 			return 1;
 		} else if (this.getIncome() - other.getIncome() < 0) {
@@ -94,7 +101,7 @@ public class TBill implements Incomable, Comparable<TBill>  {
 	}
 	
 	@Override
-	public int compareTo(TBill other) {
+	public int compareTo(Incomable other) {
 		return compareIncome(other);
 	}
 
@@ -134,6 +141,19 @@ public class TBill implements Incomable, Comparable<TBill>  {
 			return false;
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		Formatter aFormat = new Formatter();
+		//TBill(double nominal, double price, int billsAmount, LocalDate maturityDate)
+		String result = aFormat.format("|   Nominal: %1$8.2f   |     Price: %2$9.2f     |     Maturity date: %3$10tD   |   Income: %4$9.2f   |    Amount: %5$6d    |\n", 
+				getNominal(), getPrice(), getMaturityDate(), getIncome(), getBillsAmount()).toString();
+		aFormat.close();
+		return result;
+	}
+	 
+
+
 	
 	
 
