@@ -47,6 +47,6 @@ public class DepoListTest {
 		assertEquals(depoList1, depoList3);
 		assertEquals(depoList1.getList(), depoList3.getList());
 		assertEquals(depoList2, depoList4);
-		assertEquals(depoList2.getList(), depoList3.getList());
+		assertEquals(depoList2.getList(), depoList4.getList());
 	}
 }

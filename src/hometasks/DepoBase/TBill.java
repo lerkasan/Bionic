@@ -29,16 +29,6 @@ public class TBill implements Incomable, Cloneable, Serializable  {
 		this.maturityDate = maturityDate;
 	}
 	
-	@Override
-	public TBill clone() { 
-		  return new TBill(nominal, price, billsAmount, maturityDate);
-	}
-	
-	@Override
-	public TBill cloneObj() { 
-		  return new TBill(nominal, price, billsAmount, maturityDate);
-	}
-
 	public double getNominal() {
 		return nominal;
 	}
@@ -106,6 +96,17 @@ public class TBill implements Incomable, Cloneable, Serializable  {
 	public int compareTo(Incomable other) {
 		return compareIncome(other);
 	}
+	
+	@Override
+	public TBill clone() { 
+		  return new TBill(nominal, price, billsAmount, maturityDate);
+	}
+	
+	@Override
+	public TBill cloneObj() { 
+		  return new TBill(nominal, price, billsAmount, maturityDate);
+	}
+
 
 	@Override
 	public int hashCode() {
