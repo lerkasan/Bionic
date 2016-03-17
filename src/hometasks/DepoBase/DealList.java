@@ -15,7 +15,7 @@ import java.util.Collections;
 import java.util.List;
 import hometasks.Exceptions.NullArgumentException;
 
-public class DealList<T extends Incomable & Comparable<Incomable>> implements Comparable<T>, Serializable {
+public class DealList<T extends Incomable & Serializable & Comparable<Incomable>> implements Comparable<T>, Serializable {
 	private static final long serialVersionUID = -7674214312882926186L;
 	List<T> deals;
 	

@@ -84,7 +84,7 @@ public class DepoBase implements InterestInterface, Incomable, Cloneable, Serial
 	@Override
 	public String toString() {
 		Formatter aFormat = new Formatter();
-		String result = aFormat.format("|   Sum: %1$12.2f     |   Interest rate: %2$5.2f   |     Start date: %3$13tD     |   Interest: %4$7.2f   |   Days long: %5$5d   |\n", 
+		String result = aFormat.format("|   Sum: %1$12.2f     |   Interest rate: %2$5.2f   |     Start date: %3$13tD     |   Interest: %4$7.2f   |   Days long: %5$5d   |%n", 
 				getSum(), getInterestRate(), getStartDate(), getInterest(), getDayLong()).toString();
 		aFormat.close();
 		return result;
@@ -97,19 +97,19 @@ public class DepoBase implements InterestInterface, Incomable, Cloneable, Serial
 		double[] coef; // days/365 or days/366
 		double coefSum = 0.0;
 		LocalDate endOfYear;
-		LocalDate startDate = this.startDate;
-		LocalDate closeDate = this.startDate.plusDays(this.dayLong);
-		int closeYear = closeDate.getYear();
+		LocalDate start = this.startDate;
+		LocalDate close = this.startDate.plusDays(this.dayLong);
+		int closeYear = close.getYear();
 		int openYear = this.startDate.getYear();
 		dayLongByYear = new int[closeYear - openYear + 1];
 		coef = new double[closeYear - openYear + 1];
 		for (int i = 0; i <= closeYear - openYear; i++) {
 			endOfYear = LocalDate.of(openYear + i, 12, 31);
-			if (closeDate.isAfter(endOfYear)) {
-				dayLongByYear[i] = (int) startDate.until(endOfYear, ChronoUnit.DAYS);
-				startDate = endOfYear;
+			if (close.isAfter(endOfYear)) {
+				dayLongByYear[i] = (int) start.until(endOfYear, ChronoUnit.DAYS);
+				start = endOfYear;
 			} else {
-				dayLongByYear[i] = (int) startDate.until(closeDate, ChronoUnit.DAYS);
+				dayLongByYear[i] = (int) start.until(close, ChronoUnit.DAYS);
 			}
 			coef[i] = 1.0 * dayLongByYear[i] / endOfYear.lengthOfYear();
 			coefSum += coef[i];

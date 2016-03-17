@@ -148,7 +148,7 @@ public class TBill implements Incomable, Cloneable, Serializable  {
 	public String toString() {
 		Formatter aFormat = new Formatter();
 		//TBill(double nominal, double price, int billsAmount, LocalDate maturityDate)
-		String result = aFormat.format("|   Nominal: %1$8.2f     |   Price: %2$13.2f   |     Maturity date: %3$10tD     |   Income: %4$9.2f   |   Amount: %5$8d   |\n", 
+		String result = aFormat.format("|   Nominal: %1$8.2f     |   Price: %2$13.2f   |     Maturity date: %3$10tD     |   Income: %4$9.2f   |   Amount: %5$8d   |%n", 
 				getNominal(), getPrice(), getMaturityDate(), getIncome(), getBillsAmount()).toString();
 		aFormat.close();
 		return result;
