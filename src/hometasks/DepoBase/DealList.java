@@ -1,7 +1,6 @@
 package hometasks.DepoBase;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -114,9 +113,6 @@ public class DealList<T extends Incomable & Serializable & Comparable<Incomable>
 				outStream.println(i.toString());
 			}
 		}
-		catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}*/
@@ -124,9 +120,6 @@ public class DealList<T extends Incomable & Serializable & Comparable<Incomable>
 			for (Incomable i : deals) {
 				outputWriter.println(i);
 			}
-		}
-        catch (FileNotFoundException e) {
-			e.printStackTrace();
 		}
 		catch (IOException e) {
 			e.printStackTrace();
@@ -136,9 +129,8 @@ public class DealList<T extends Incomable & Serializable & Comparable<Incomable>
 	public void saveSerializedToFile(String filePath) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
 			oos.writeObject(this);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		}
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -148,13 +140,10 @@ public class DealList<T extends Incomable & Serializable & Comparable<Incomable>
 		DealList<Incomable> newList = new DealList<>();
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
 			newList = (DealList<Incomable>) ois.readObject();
-		} catch (FileNotFoundException e) {
+		} 
+		catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+		} 
 		return newList;
 	}
 	

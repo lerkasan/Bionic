@@ -18,7 +18,7 @@ public class NetworkExercise {
 			URL ukrstat = new URL("http://ukrstat.gov.ua/operativ/operativ2016/fin/rp/selo/selo_1_2016.zip"); 
 			URLConnection conn = ukrstat.openConnection();
 			in = conn.getInputStream(); 
-			out = new FileOutputStream("C:\\Job\\27xl.zip");
+			out = new FileOutputStream("results\\27xl.zip");
 			int input;
 			while ((input = in.read()) != -1) {
 				out.write(input);

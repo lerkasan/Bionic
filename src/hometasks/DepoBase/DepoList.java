@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import hometasks.Exceptions.*;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -138,9 +137,6 @@ public class DepoList implements Serializable {
 				outputWriter.println(i);
 			}
 		}
-        catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -149,9 +145,8 @@ public class DepoList implements Serializable {
 	public void saveSerializedToFile(String filePath) {
 		try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(filePath))) {
 			oos.writeObject(this);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} 
+		catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
@@ -160,13 +155,10 @@ public class DepoList implements Serializable {
 		DepoList newList = new DepoList();
 		try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(filePath))) {
 			newList = (DepoList) ois.readObject();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		}
+		catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		} 
 		return newList;
 	}
 	
