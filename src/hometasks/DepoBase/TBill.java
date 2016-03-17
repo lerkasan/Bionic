@@ -1,11 +1,13 @@
 package hometasks.DepoBase;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Formatter;
 
 import hometasks.Exceptions.WrongArgumentException;
 
-public class TBill implements Incomable, Cloneable  {
+public class TBill implements Incomable, Cloneable, Serializable  {
+	private static final long serialVersionUID = -475529978177489724L;
 	private double  nominal;
 	private double price;
 	private int billsAmount;
@@ -146,7 +148,7 @@ public class TBill implements Incomable, Cloneable  {
 	public String toString() {
 		Formatter aFormat = new Formatter();
 		//TBill(double nominal, double price, int billsAmount, LocalDate maturityDate)
-		String result = aFormat.format("|   Nominal: %1$8.2f   |     Price: %2$9.2f     |     Maturity date: %3$10tD   |   Income: %4$9.2f   |    Amount: %5$6d    |\n", 
+		String result = aFormat.format("|   Nominal: %1$8.2f     |   Price: %2$13.2f   |     Maturity date: %3$10tD     |   Income: %4$9.2f   |   Amount: %5$8d   |\n", 
 				getNominal(), getPrice(), getMaturityDate(), getIncome(), getBillsAmount()).toString();
 		aFormat.close();
 		return result;

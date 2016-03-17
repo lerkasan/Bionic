@@ -11,6 +11,7 @@ public class DealListTest {
 	    DealList<Incomable> list1 = new DealList<>();
 	    DealList<Incomable> list2 = new DealList<>();
 	    DealList<Incomable> list3 = new DealList<>();
+	    
 	    //DepoBase(double sum, double interestRate, LocalDate startDate, int dayLong)
 	    //TBill(double nominal, double price, int billsAmount, LocalDate maturityDate)
 	    
@@ -32,17 +33,11 @@ public class DealListTest {
 	    DepoMonthCapitalize depo1 = new DepoMonthCapitalize(12000.0, 26.0, LocalDate.of(2013, 7, 12), 91);
 	    TBill bill1 = new TBill(200,190.51,550,LocalDate.of(2013,9,8));
 	    list3.add(depo1);
-	    //System.out.println("depo " + depo1.getIncome()+";  bill "+bill1.getIncome());
 		assertEquals(-1, list1.compareIncome(list2));
 		assertEquals(1, list2.compareIncome(list1));
 		assertEquals(0, list1.compareIncome(list1));
 		assertEquals(0, list3.compareIncome(depo1));
 		assertEquals(-1, list3.compareIncome(bill1));
-		
-		System.out.println(list1);
-		list1.sortDeposByIncome();
-		System.out.println("Sorted by Income/Interest:");
-		System.out.println(list1);
 	    
 	}
 

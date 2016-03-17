@@ -84,7 +84,7 @@ public class DepoBase implements InterestInterface, Incomable, Cloneable, Serial
 	@Override
 	public String toString() {
 		Formatter aFormat = new Formatter();
-		String result = aFormat.format("|     Sum: %1$8.2f     |   Interest rate: %2$5.2f   |     Start date: %3$11tD     |   Interest: %4$7.2f   |   Days long: %5$5d   |\n", 
+		String result = aFormat.format("|   Sum: %1$12.2f     |   Interest rate: %2$5.2f   |     Start date: %3$13tD     |   Interest: %4$7.2f   |   Days long: %5$5d   |\n", 
 				getSum(), getInterestRate(), getStartDate(), getInterest(), getDayLong()).toString();
 		aFormat.close();
 		return result;
