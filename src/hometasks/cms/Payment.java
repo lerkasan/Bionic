@@ -2,10 +2,10 @@ package hometasks.cms;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.time.LocalDate;
+
+import hometasks.Exceptions.WrongArgumentException;
 
 public class Payment {
 	private int id;
@@ -17,10 +17,11 @@ public class Payment {
 	private LocalDate paymentDate;
 	
 	public Payment() {	
+		this.id = -1;
 	}
 	
-	public Payment(int id, int merchantId, int customerId, String goods, double sumPayed, double chargePayed, LocalDate paymentDate) {
-		this.id = id;
+	public Payment(int merchantId, int customerId, String goods, double sumPayed, double chargePayed, LocalDate paymentDate) {
+		this.id = -1;
 		this.merchantId = merchantId;
 		this.customerId = customerId;
 		this.goods = goods;
@@ -42,23 +43,10 @@ public class Payment {
 	}
 
 	public void setMerchantId(int merchantId) {
-		Connection con = CMS.getConnection();
-		String sql = "select count(*) from merchant where id = " + merchantId;
-		try (Statement stm = con.createStatement()) {
-			ResultSet rs = stm.executeQuery(sql);
-			if (rs.next() && (rs.getInt(1) == 1)) {
-				this.merchantId = merchantId;
-			} else {
-				System.out.println("In DB there is no such merchant with merchantId passed as a parameter to setMerchantId.");
-			}
-			rs.close();
-			con.close();
-		} catch (SQLException e3) {
-			e3.printStackTrace();
-			e3.getSQLState();
-			e3.getErrorCode();
-			e3.getMessage();
-			e3.getCause();
+		if (Merchant.existsInDB(merchantId)) {
+			this.merchantId = merchantId;
+		} else {
+			throw new WrongArgumentException("In DB there is no such merchant with merchantId passed as a parameter to setMerchantId.");
 		}
 	}
 
@@ -67,23 +55,10 @@ public class Payment {
 	}
 
 	public void setCustomerId(int customerId) {
-		Connection con = CMS.getConnection();
-		String sql = "select count(*) from customer where id = " + customerId;
-		try (Statement stm = con.createStatement()) {
-			ResultSet rs = stm.executeQuery(sql);
-			if (rs.next() && (rs.getInt(1) == 1)) {
-				this.customerId = customerId;
-			} else {
-				System.out.println("In DB there is no such customer with customerId passed as a parameter to setCustomerId.");
-			}
-			rs.close();
-			con.close();
-		} catch (SQLException e3) {
-			e3.printStackTrace();
-			e3.getSQLState();
-			e3.getErrorCode();
-			e3.getMessage();
-			e3.getCause();
+		if (Customer.existsInDB(customerId)) { 
+			this.customerId = customerId;
+		} else {
+			throw new WrongArgumentException("In DB there is no such customer with customerId passed as a parameter to setCustomerId.");
 		}
 	}
 
@@ -168,8 +143,7 @@ public class Payment {
 				e2.getMessage();
 				e2.getCause();
 			}
-		}
-		
+		}	
 	}
 	
 }

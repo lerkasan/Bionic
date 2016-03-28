@@ -1,6 +1,7 @@
 package hometasks.cms;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -8,6 +9,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
+
+import hometasks.Exceptions.WrongArgumentException;
 
 enum Periods {WEEK, TENDAYS, MONTH};
 
@@ -32,9 +35,17 @@ public class Merchant {
 			String account) {
 		this.id = -1;
 		this.name = name;
-		this.charge = charge;
+		if ((charge > 0) && (charge < 100)) {
+			this.charge = charge;
+		} else {
+			throw new WrongArgumentException("Charge isn't in range (0,100).");
+		}
 		this.period = period;
-		this.minSum = minSum;
+		if (minSum > 0) {
+			this.minSum = minSum;
+		} else {
+			throw new WrongArgumentException("MinSum can't be negative number or zero.");
+		}
 		this.bankName = bankName;
 		this.swift = swift;
 		this.account = account;
@@ -61,7 +72,11 @@ public class Merchant {
 	}
 
 	public void setCharge(double charge) {
-		this.charge = charge;
+		if ((charge > 0) && (charge < 100)) {
+			this.charge = charge;
+		} else {
+			throw new WrongArgumentException("Charge isn't in range (0,100).");
+		}
 	}
 
 	public Periods getPeriod() {
@@ -77,7 +92,11 @@ public class Merchant {
 	}
 
 	public void setMinSum(double minSum) {
-		this.minSum = minSum;
+		if (minSum > 0) {
+			this.minSum = minSum;
+		} else {
+			throw new WrongArgumentException("MinSum can't be negative number or zero.");
+		}
 	}
 
 	public String getBankName() {
@@ -141,6 +160,60 @@ public class Merchant {
 		return result;
 	}
 	
+	public static boolean existsInDB(int merchantId) {
+		Connection con = CMS.getConnection();
+		String sql = "select count(*) from merchant where id = " + merchantId;
+		try (Statement stm = con.createStatement()) {
+			ResultSet rs = stm.executeQuery(sql);
+			if (rs.next() && (rs.getInt(1) == 1)) {
+				rs.close();
+				con.close();
+				return true;
+			}
+			rs.close();
+			con.close();
+			//return false;
+		} catch (SQLException e3) {
+			e3.printStackTrace();
+			e3.getSQLState();
+			e3.getErrorCode();
+			e3.getMessage();
+			e3.getCause();
+		}
+		return false;
+	}
+	
+	public void addToDB() {
+		Connection con = CMS.getConnection();
+		String sql = "insert into merchant (name, charge, period, minSum, bankName, swift, account) " +
+				 	 "values (?, ?, ?, ?, ?, ?, ?)";
+		try (PreparedStatement stm = con.prepareStatement(sql)) {
+			stm.setString(1, name);
+			stm.setDouble(2, charge);
+			stm.setInt(3, period.ordinal()+1);
+			stm.setDouble(4, minSum);
+			stm.setString(5, bankName);
+			stm.setString(6, swift);
+			stm.setString(7, account);
+			stm.executeUpdate();
+			try {
+				con.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+				e.getSQLState();
+				e.getErrorCode();
+				e.getMessage();
+				e.getCause();
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+			e1.getSQLState();
+			e1.getErrorCode();
+			e1.getMessage();
+			e1.getCause();
+		}
+	}
+	
 	public void loadFromDB(int id) {
 		Connection con = CMS.getConnection();
 		try (Statement stm = con.createStatement()) {
@@ -160,7 +233,7 @@ public class Merchant {
 				this.sent = rs.getDouble("sent");
 				this.lastSent = rs.getDate("lastSent").toLocalDate();
 			} else {
-				System.out.println("Merchant not found. There is no merchant with id "+id+" in database.");
+				throw new WrongArgumentException("Merchant not found. There is no merchant with id "+id+" in database.");
 			}
 			rs.close();
 			try {
@@ -235,8 +308,7 @@ public class Merchant {
 	
 	public double getTotalSumPayed() {
 		if (id == -1) {
-			System.out.println("Merchant not found. There is no merchant with id "+id+" in database.");
-			return 0;
+			throw new WrongArgumentException("Merchant not found. There is no merchant with id "+id+" in database.");
 		}
 		Connection con = CMS.getConnection();
 		try (Statement stm = con.createStatement()) {
@@ -272,8 +344,7 @@ public class Merchant {
 	 */
 	public double getGivenIncome() { 
 		if (id == -1) {
-			System.out.println("Merchant not found. There is no merchant with id "+id+" in database.");
-			return 0;
+			throw new WrongArgumentException("Merchant not found. There is no merchant with id "+id+" in database.");
 		}
 		Connection con = CMS.getConnection();
 		try (Statement stm = con.createStatement()) {
