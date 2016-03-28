@@ -105,8 +105,8 @@ public class MoneyTransfer {
 			con.setAutoCommit(false); 
 			String sql = "insert into transMoney (merchantId, sumSent, sentDate, status) " +
 						     "select m.id, m.needToSend, CURRENT_DATE, 0 from merchant m " +
-						 	 "where (m.needToSend > m.minSum) and " +
-						 	 "({fn timestampdiff(SQL_TSI_DAY, m.lastSent, CURRENT_DATE)} > " +
+						 	 "where (m.needToSend >= m.minSum) and " +
+						 	 "({fn timestampdiff(SQL_TSI_DAY, m.lastSent, CURRENT_DATE)} >= " +
 						 	     "(select p.days from periods p where m.period = p.id) )";
 			int result = stm.executeUpdate(sql);
 			if (result > 0) {

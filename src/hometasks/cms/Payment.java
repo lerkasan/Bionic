@@ -20,13 +20,28 @@ public class Payment {
 		this.id = -1;
 	}
 	
-	public Payment(int merchantId, int customerId, String goods, double sumPayed, double chargePayed, LocalDate paymentDate) {
+	public Payment(int merchantId, int customerId, String goods, double sumPayed, LocalDate paymentDate) {
 		this.id = -1;
-		this.merchantId = merchantId;
-		this.customerId = customerId;
+		if (Merchant.existsInDB(merchantId)) {
+			this.merchantId = merchantId;
+		} else {
+			throw new WrongArgumentException("In DB there is no such merchant with merchantId passed as a parameter to setMerchantId.");
+		}
+		if (Customer.existsInDB(customerId)) { 
+			this.customerId = customerId;
+		} else {
+			throw new WrongArgumentException("In DB there is no such customer with customerId passed as a parameter to setCustomerId.");
+		}
+		Customer cust = new Customer();
+		cust.loadFromDB(customerId);
+		if (cust.getMaturity().isBefore(paymentDate)) {
+			throw new WrongArgumentException("Customer's card is expired. Can't create payment.");
+		}
 		this.goods = goods;
 		this.sumPayed = sumPayed;
-		this.chargePayed = chargePayed;
+		Merchant merch = new Merchant();
+		merch.loadFromDB(merchantId);
+		this.chargePayed = 0.01*sumPayed*merch.getCharge();
 		this.paymentDate = paymentDate;
 	}
 
@@ -76,24 +91,34 @@ public class Payment {
 
 	public void setSumPayed(double sumPayed) {
 		this.sumPayed = sumPayed;
+		Merchant merch = new Merchant();
+		merch.loadFromDB(merchantId);
+		this.chargePayed = 0.01*sumPayed*merch.getCharge();
 	}
 
 	public double getChargePayed() {
 		return chargePayed;
 	}
-	public void setChargePayed(double chargePayed) {
+	
+	/*public void setChargePayed(double chargePayed) {
 		this.chargePayed = chargePayed;
-	}
+	}*/
 
 	public LocalDate getPaymentDate() {
 		return paymentDate;
 	}
 
 	public void setPaymentDate(LocalDate paymentDate) {
+		Customer cust = new Customer();
+		cust.loadFromDB(customerId);
+		if (cust.getMaturity().isBefore(paymentDate)) {
+			throw new WrongArgumentException("Can't change paymentDate, because customers' card maturity date is before payment date. "+
+											 "Customer's card could be expired.");
+		}
 		this.paymentDate = paymentDate;
 	}
 	
-	public void addPaymentToDB() {
+	public void addToDB() {
 		Merchant merch = new Merchant();
 		merch.loadFromDB(merchantId);
 		
