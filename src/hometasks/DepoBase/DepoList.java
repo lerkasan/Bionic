@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.time.*;
 
-public class DepoList implements Serializable {
+public class DepoList implements Serializable, Runnable {
 	private static final long serialVersionUID = -2322919268184612766L;
 	public static final double MINIMAL_SUM = 10000.0;
 	private List<DepoBase> list;
@@ -160,6 +160,16 @@ public class DepoList implements Serializable {
 			e.printStackTrace();
 		} 
 		return newList;
+	} 
+	
+	public void add100(int index) {
+		double sum = this.getList().get(index).getSum();
+		try {
+			Thread.currentThread().sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		};
+		this.getList().get(index).setSum(sum+100);
 	}
 	
 	public static void main(String[] args) {
