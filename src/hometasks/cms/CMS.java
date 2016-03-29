@@ -83,13 +83,13 @@ public class CMS {
 		Customer.printCustomerList(customers);
 		
 		//int merchantId, int customerId, String goods, double sumPayed, LocalDate paymentDate
-		Payment pay = new Payment(1206, 504, "Cosmetics", 475.6, LocalDate.of(2016, 3, 14));
+		Payment pay = new Payment(2507, 104, "Water", 475.6, LocalDate.of(2016, 3, 14));
 		pay.addToDB();
 		
-		pay = new Payment(506, 4, "Discs", 754.2, LocalDate.of(2016, 3, 25));
+		pay = new Payment(305, 4, "Cosmetics", 754.2, LocalDate.of(2016, 3, 25));
 		pay.addToDB();
 		
-		pay = new Payment(1006, 2, "Discs", 534.6, LocalDate.of(2016, 3, 25));
+		pay = new Payment(2509, 2, "Mobile phone", 534.6, LocalDate.of(2016, 3, 25));
 		pay.addToDB();
 		
 		System.out.println("\nMerchants after adding payment:");
