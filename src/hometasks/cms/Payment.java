@@ -119,12 +119,9 @@ public class Payment {
 	}
 	
 	public void addToDB() {
-		Merchant merch = new Merchant();
-		merch.loadFromDB(merchantId);
-		
 		Connection con = CMS.getConnection();
 		String sql = "insert into payment (dt, merchantId, customerId, goods, sumPayed, chargePayed) " +
-				 	 "values (CURRENT_TIMESTAMP, ?, ?, ?, ?, 0,01*?*?)";
+				 	 "values (CURRENT_TIMESTAMP, ?, ?, ?, ?, ?)";
 		try (PreparedStatement stm = con.prepareStatement(sql)) {
 			
 			con.setAutoCommit(false); 
@@ -132,14 +129,12 @@ public class Payment {
 			stm.setInt(2, customerId);
 			stm.setString(3, goods);
 			stm.setDouble(4, sumPayed);
-			stm.setDouble(5, sumPayed);
-			stm.setDouble(6, merch.getCharge());
+			stm.setDouble(5, chargePayed);
 			stm.executeUpdate();
-			sql = "update merchant set needToSend = needToSend + 0,01*?*? where id = ?";
+			sql = "update merchant set needToSend = needToSend + ? where id = ?";
 			try (PreparedStatement stm1 = con.prepareStatement(sql)) {
-				stm1.setDouble(1, sumPayed);
-				stm1.setDouble(2, merch.getCharge());
-				stm1.setInt(3, merchantId);
+				stm1.setDouble(1, sumPayed - chargePayed);
+				stm1.setInt(2, merchantId);
 				stm1.executeUpdate();
 			}
 			con.commit();

@@ -109,7 +109,7 @@ public class Customer {
 			return "";
 		}
 		Formatter aFormat = new Formatter();
-		String result = aFormat.format("|   %1$3d   |   %2$25s   |   %3$25s   |   %4$20s   |   %5$14d   |   %6$15s   |   %7$8tD   |%n", 
+		String result = aFormat.format("|   %1$6d   |   %2$25s   |   %3$50s   |   %4$20s   |   %5$14s   |   %6$15s   |   %7$8tD   |%n", 
 				id, name, address, email, ccNo, ccType, maturity).toString();
 		aFormat.close();
 		return result;
@@ -174,7 +174,7 @@ public class Customer {
 	public void loadFromDB(int id) {
 		Connection con = CMS.getConnection();
 		try (Statement stm = con.createStatement()) {
-			String sql = "select id, name, address, email, ccNo, ccType, maturity"+
+			String sql = "select id, name, address, email, ccNo, ccType, maturity "+
 						 "from customer where id = " + id;
 			ResultSet rs = stm.executeQuery(sql);
 			if (rs.next()) {
@@ -247,8 +247,9 @@ public class Customer {
 	public static void printCustomerList(List<Customer> customerList) {
 		if ( (customerList != null) && (! customerList.isEmpty()) ) {
 			System.out.println("\nCustomers list:");
-			System.out.println("|    id   |              name             |           address           |            email          |" +
-							   "        ccNo        |             ccType             |   maturity   |");
+			System.out.println("|     id     |              name             |                         address                        |" +
+			"           email          |" +
+							   "        ccNo        |        ccType        |   maturity   |");
 			for (Customer cust : customerList) {
 				System.out.print(cust);
 			}

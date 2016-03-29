@@ -83,8 +83,8 @@ public class MoneyTransfer {
 	@Override
 	public String toString() {
 		Formatter aFormat = new Formatter();
-		String result = aFormat.format("|   %1$3d   |   %2$25s   |   %3$10.2f   |   %4$8tD   |   %5$5b   |\n", 
-				id, merchantName, sumSent, sentDate, status).toString();
+		String result = aFormat.format("|   %1$6d   |   %2$6d   |   %3$25s   |   %4$10.2f   |   %5$8tD   |   %6$5b   |\n", 
+				id, merchantId, merchantName, sumSent, sentDate, status).toString();
 		aFormat.close();
 		return result;
 	}
@@ -92,7 +92,7 @@ public class MoneyTransfer {
 	public static void printMoneyTransferToBeSent(List<MoneyTransfer> moneyTransList) {
 		if ( (moneyTransList != null) && (! moneyTransList.isEmpty()) ) {
 			System.out.println("\nMoney transfer to be sent:");
-			System.out.println("|    id   |         merchant name         |    sum sent    |   sent date  |   status  |");
+			System.out.println("|     id     |  merch id  |         merchant name         |    sum sent    |   sent date  |   status  |");
 			for (MoneyTransfer moneyTrans : moneyTransList) {
 				System.out.print(moneyTrans);
 			}
@@ -106,8 +106,9 @@ public class MoneyTransfer {
 			String sql = "insert into transMoney (merchantId, sumSent, sentDate, status) " +
 						     "select m.id, m.needToSend, CURRENT_DATE, 0 from merchant m " +
 						 	 "where (m.needToSend >= m.minSum) and " +
-						 	 "({fn timestampdiff(SQL_TSI_DAY, m.lastSent, CURRENT_DATE)} >= " +
-						 	     "(select p.days from periods p where m.period = p.id) )";
+						 	 "( ({fn timestampdiff(SQL_TSI_DAY, m.lastSent, CURRENT_DATE)} >= " +
+						 	     "(select p.days from periods p where m.period = p.id) ) " +
+						 	 "or (m.lastSent is null) )";
 			int result = stm.executeUpdate(sql);
 			if (result > 0) {
 				sql = "update merchant set needToSend = 0 " + 

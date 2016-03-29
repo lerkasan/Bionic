@@ -29,6 +29,7 @@ public class Merchant {
 	
 	public Merchant() {
 		id = -1;
+		needToSend = 0;
 	}
 
 	public Merchant(String name, double charge, Periods period, double minSum, String bankName, String swift,
@@ -49,6 +50,7 @@ public class Merchant {
 		this.bankName = bankName;
 		this.swift = swift;
 		this.account = account;
+		this.needToSend = 0;
 	}
 
 	public int getId() {
@@ -153,7 +155,7 @@ public class Merchant {
 			return "";
 		}
 		Formatter aFormat = new Formatter();
-		String result = aFormat.format("|   %1$3d   |   %2$25s   |   %3$4.2f   |   %4$7s   |   %5$7.2f   |   %6$20s   |   %7$12s   |"+
+		String result = aFormat.format("|   %1$6d   |   %2$25s   |   %3$4.2f   |   %4$7s   |   %5$7.2f   |   %6$20s   |   %7$12s   |"+
 				"   %8$12s   |   %9$12.2f   |   %10$20.2f   |   %11$8tD   |%n", 
 				id, name, charge, period, minSum, bankName, swift, account, needToSend, sent, lastSent).toString();
 		aFormat.close();
@@ -185,8 +187,8 @@ public class Merchant {
 	
 	public void addToDB() {
 		Connection con = CMS.getConnection();
-		String sql = "insert into merchant (name, charge, period, minSum, bankName, swift, account) " +
-				 	 "values (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "insert into merchant (name, charge, period, minSum, bankName, swift, account, needToSend) " +
+				 	 "values (?, ?, ?, ?, ?, ?, ?, ?)";
 		try (PreparedStatement stm = con.prepareStatement(sql)) {
 			stm.setString(1, name);
 			stm.setDouble(2, charge);
@@ -195,6 +197,7 @@ public class Merchant {
 			stm.setString(5, bankName);
 			stm.setString(6, swift);
 			stm.setString(7, account);
+			stm.setDouble(8, needToSend);
 			stm.executeUpdate();
 			try {
 				con.close();
@@ -231,7 +234,9 @@ public class Merchant {
 				this.account = rs.getString("account");
 				this.needToSend = rs.getDouble("needToSend");
 				this.sent = rs.getDouble("sent");
-				this.lastSent = rs.getDate("lastSent").toLocalDate();
+				if (rs.getDate("lastSent") != null) {
+					this.lastSent = rs.getDate("lastSent").toLocalDate();
+				}
 			} else {
 				throw new WrongArgumentException("Merchant not found. There is no merchant with id "+id+" in database.");
 			}
@@ -272,7 +277,9 @@ public class Merchant {
 				merch.setAccount(rs.getString("account"));
 				merch.setNeedToSend(rs.getDouble("needToSend"));
 				merch.setSent(rs.getDouble("sent"));
-				merch.setLastSent(rs.getDate("lastSent").toLocalDate());
+				if (rs.getDate("lastSent") != null) {
+					merch.setLastSent(rs.getDate("lastSent").toLocalDate());
+				}
 				merchantList.add(merch);
 			}
 			rs.close();
@@ -298,7 +305,7 @@ public class Merchant {
 	public static void printMerchantList(List<Merchant> merchantList) {
 		if ( (merchantList != null) && (! merchantList.isEmpty()) ) {
 			System.out.println("\nMerchants list:");
-			System.out.println("|    id   |              name             |  charge  |    period   |    minSum   |        bank name         |       swift      |"+
+			System.out.println("|     id     |              name             |  charge  |    period   |    minSum   |        bank name         |       swift      |"+
 							   "      account     |   need to send   |           sent           |   last sent  |");
 			for (Merchant merch : merchantList) {
 				System.out.print(merch);
@@ -383,9 +390,10 @@ public class Merchant {
 						 "group by p.merchantId, m.name";
 			ResultSet rs = stm.executeQuery(sql);
 			System.out.println("\nIncome from merchants:");
+			System.out.println("|    id     |              name             |    income    |");
 			while (rs.next()) {
 				Formatter aFormat = new Formatter();
-				String result = aFormat.format("|   %1$3d   |   %2$25s   |   %3$8.2f   |", 
+				String result = aFormat.format("|  %1$6d   |   %2$25s   |   %3$8.2f   |", 
 						rs.getInt("merchantId"), rs.getString("name"), rs.getDouble("income")).toString();
 				System.out.println(result);
 				aFormat.close();
