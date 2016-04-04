@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.IntStream;
-
-import hometasks.Comparison.ListInsertion;
 import hometasks.Exceptions.WrongArgumentException;
 
 public class Sieve {
 	int limit;
-	private ArrayList<Integer> primes;
+	//private List<Integer> primes;
+	private ConcurrentSkipListSet<Integer> primes;
 	
 	public Sieve() {
 		this.limit = 0; 
-		this.primes = new ArrayList<Integer>();
+		//this.primes = new ArrayList<Integer>();
+		this.primes = new ConcurrentSkipListSet<Integer>();
 	}
 	
 	public Sieve(int limit) {
@@ -23,7 +24,8 @@ public class Sieve {
 			throw new WrongArgumentException("Limit argument must be a natural number greater than 1.");
 		}
 		this.limit = limit;
-		this.primes = new ArrayList<Integer>(limit-1);
+		//this.primes = new ArrayList<Integer>(limit-1);
+		this.primes = new ConcurrentSkipListSet<Integer>();
 		/*for (int i = 2; i <= limit; i++) {
 			this.primes.add(i);
 		}*/
@@ -33,15 +35,16 @@ public class Sieve {
 		//System.out.println(this.primes);
 	}
 	
-	public ArrayList<Integer> getPrimes() {
+	public ConcurrentSkipListSet<Integer> getPrimes() {
+	//public List<Integer> getPrimes() {
 		if ( (this.limit == 2) || (this.limit == 3) ) {
 			return this.primes;
 		}
 		if (this.primes.size() != this.limit-1) {
 			return this.primes;
 		}
-		//ArrayList<Integer> primes = new ArrayList<Integer>(this.primes);
-		try {		
+		//List<Integer> primes = new ArrayList<Integer>(this.primes);
+		//try {		
 			this.primes.stream()
 				.filter(Objects::nonNull)
 				.filter(divisor -> divisor <= (int)Math.sqrt(this.limit)+1)
@@ -50,13 +53,14 @@ public class Sieve {
 					System.out.println("Removing divided by "+divisor+": "+this.primes);
 					});
 			System.out.println();
-		}
+		/*}
 		catch (ConcurrentModificationException e) {
-		}
+		}*/
 		return this.primes;
 	}
 	
-	public ArrayList<Integer> getPrimes2() {
+	public ConcurrentSkipListSet<Integer> getPrimes2() {
+	//public List<Integer> getPrimes2() {
 		for (int divisor=2; divisor <= (int)Math.sqrt(this.limit)+1; divisor++) {
 			//for (Iterator<Integer> it = this.primes.iterator(); it.hasNext(); ) {
 			for (Iterator<Integer> iter = this.primes.iterator(); iter.hasNext(); ) {
@@ -70,7 +74,8 @@ public class Sieve {
 		return this.primes;
 	}
 	
-	public ArrayList<Integer> getPrimes3() {
+	public ConcurrentSkipListSet<Integer> getPrimes3() {
+	//public List<Integer> getPrimes3() {
 		for (Iterator<Integer> it = this.primes.iterator(); it.hasNext(); ) {
 			int divisor = it.next();
 			for (Iterator<Integer> iter = this.primes.iterator(); iter.hasNext(); ) {
@@ -124,7 +129,7 @@ public class Sieve {
 	}
 
 	public static void main(String[] args) {
-		System.out.println("Result - stream implementation: " + new Sieve(51).getPrimes());
+		System.out.println("Result - stream implementation: " + new Sieve(1520).getPrimes());
 		/*System.out.println("Result - cycle implementation: " + new Sieve(1510).getPrimes2());
 		Sieve sieve1 = new Sieve(1000000);
 		long before = System.nanoTime();
