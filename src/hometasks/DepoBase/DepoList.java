@@ -17,7 +17,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.time.*;
 
-public class DepoList implements Serializable, Runnable {
+public class DepoList implements Serializable {
 	private static final long serialVersionUID = -2322919268184612766L;
 	public static final double MINIMAL_SUM = 10000.0;
 	private List<DepoBase> list;
