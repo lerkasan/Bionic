@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentSkipListSet;
 import java.util.stream.IntStream;
 import hometasks.Exceptions.WrongArgumentException;
@@ -11,7 +12,7 @@ import hometasks.Exceptions.WrongArgumentException;
 public class Sieve {
 	int limit;
 	//private List<Integer> primes;
-	private ConcurrentSkipListSet<Integer> primes;
+	private Set<Integer> primes;
 	
 	public Sieve() {
 		this.limit = 0; 
@@ -35,7 +36,7 @@ public class Sieve {
 		//System.out.println(this.primes);
 	}
 	
-	public ConcurrentSkipListSet<Integer> getPrimes() {
+	public Set<Integer> getPrimes() {
 	//public List<Integer> getPrimes() {
 		if ( (this.limit == 2) || (this.limit == 3) ) {
 			return this.primes;
@@ -59,7 +60,7 @@ public class Sieve {
 		return this.primes;
 	}
 	
-	public ConcurrentSkipListSet<Integer> getPrimes2() {
+	public Set<Integer> getPrimes2() {
 	//public List<Integer> getPrimes2() {
 		for (int divisor=2; divisor <= (int)Math.sqrt(this.limit)+1; divisor++) {
 			//for (Iterator<Integer> it = this.primes.iterator(); it.hasNext(); ) {
@@ -74,7 +75,7 @@ public class Sieve {
 		return this.primes;
 	}
 	
-	public ConcurrentSkipListSet<Integer> getPrimes3() {
+	public Set<Integer> getPrimes3() {
 	//public List<Integer> getPrimes3() {
 		for (Iterator<Integer> it = this.primes.iterator(); it.hasNext(); ) {
 			int divisor = it.next();
