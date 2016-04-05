@@ -73,7 +73,7 @@ public class Divisor implements Runnable {
 			
 			for (int i = 1; i < max; i += max/THREADSAMOUNT) {
 				from = i;
-				to = i + max/THREADSAMOUNT - 1;
+				to = (long)(i + max/THREADSAMOUNT - 1);
 				//System.out.println("New interval (" + from + ", " + to + ")");
 				Partition partitioning = new Partition(from,to);
 				FutureTask<Long> task = new FutureTask<>(partitioning);
