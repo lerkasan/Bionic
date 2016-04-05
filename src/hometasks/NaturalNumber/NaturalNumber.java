@@ -9,11 +9,11 @@ import hometasks.Exceptions.*;
 /** represents natural number and its prime and common divisors*/
 public class NaturalNumber {
 	/** natural number*/
-	private int num;
+	private long num;
 	/** array of prime divisors of natural number*/
-	private int[] primeDivs;
+	private long[] primeDivs;
 	/** array of all divisors of natural number*/
-	private int[] allDivs;
+	private long[] allDivs;
 
 	/** default constructor that creates natural number object with a value of 1*/
 	public NaturalNumber() {
@@ -25,7 +25,7 @@ public class NaturalNumber {
 	/** constructor that creates natural number object with a value of argument n. 
 	 * @throws WrongArgumentException if argument n isn't a natural number.
 	 * @param n - natural number with value starting from 1*/
-	public NaturalNumber(int n) throws WrongArgumentException {
+	public NaturalNumber(long n) throws WrongArgumentException {
 		if (n > 0) {
 			this.num = n;
 			this.primeDivs = null;
@@ -77,14 +77,14 @@ public class NaturalNumber {
 	}
 
 	/** return value of natural number object */ 
-	public int getNum() {
+	public long getNum() {
 		return this.num;
 	}
 
 	/** sets field num of natural number object with a value of argument n. 
 	 * @throws WrongArgumentException if argument n isn't a natural number.
 	 * @param n - natural number with value starting from 1*/
-	public void setNum(int n) throws WrongArgumentException {
+	public void setNum(long n) throws WrongArgumentException {
 		if (n > 0) {
 			this.num = n;
 			this.primeDivs = null;
@@ -99,15 +99,15 @@ public class NaturalNumber {
 
 	/** calculates all divisors of current natural number.
 	 * @return array consisting of all divisors of current natural number*/
-	public int[] getAllDivs() {
+	public long[] getAllDivs() {
 		if (this.allDivs != null) {
 			return this.allDivs;
 		}
 		int allDivsAmount = 0;
-		int[] tempAllDivs;
-		int sqrtN = (int) Math.sqrt(this.num);
-		tempAllDivs = new int[this.num / 2 + 1];
-		for (int i = 1; i <= sqrtN; i++) {
+		long[] tempAllDivs;
+		long sqrtN = (int) Math.sqrt(this.num);
+		tempAllDivs = new long[(int) (this.num / 2 + 1)];
+		for (long i = 1; i <= sqrtN; i++) {
 			if (this.num % i == 0) {
 				tempAllDivs[allDivsAmount] = i;
 				if (allDivsAmount <= this.num / 2) {
@@ -121,7 +121,7 @@ public class NaturalNumber {
 				}
 			}
 		}
-		this.allDivs = new int[allDivsAmount];
+		this.allDivs = new long[allDivsAmount];
 		for (int i = 0; i < allDivsAmount; i++) {
 			this.allDivs[i] = tempAllDivs[i];
 		}
@@ -136,13 +136,13 @@ public class NaturalNumber {
 
 	/** calculates prime divisors of current natural number.
 	 * @return array consisting of prime divisors of current natural number*/
-	public int[] getPrimeDivs() {
+	public long[] getPrimeDivs() {
 		if (this.primeDivs != null) {
 			return this.primeDivs;
 		}
 		int primeDivsAmount = 0;
-		int[] tempPrimeDivs = new int[this.num / 2 + 1];
-		for (int i : this.getAllDivs()) {
+		long[] tempPrimeDivs = new long[(int) (this.num / 2 + 1)];
+		for (long i : this.getAllDivs()) {
 			NaturalNumber component = new NaturalNumber(i);
 			if (component.isPrime()) {
 				tempPrimeDivs[primeDivsAmount] = component.getNum();
@@ -151,7 +151,7 @@ public class NaturalNumber {
 				}
 			}
 		}
-		this.primeDivs = new int[primeDivsAmount];
+		this.primeDivs = new long[primeDivsAmount];
 		for (int i = 0; i < primeDivsAmount; i++) {
 			this.primeDivs[i] = tempPrimeDivs[i];
 		}
@@ -163,8 +163,8 @@ public class NaturalNumber {
 	/** verifies if current natural number is perfect
 	 * @return true if natural number is perfect else false*/
 	public boolean isPerfect() {
-		int sum = 1;
-		int[] tempAllDivs = this.getAllDivs();
+		long sum = 1;
+		long[] tempAllDivs = this.getAllDivs();
 		for (int k = 2; k < tempAllDivs.length; k++) {
 			sum += tempAllDivs[k];
 		}
@@ -173,11 +173,11 @@ public class NaturalNumber {
 
 	/** calculates first perfect numbers. Amount of numbers is set by argument amount. Amount should be less than 6.
 	 * @return array of perfect numbers*/
-	public static int[] findPerfects(int amount) { //int[] - only for first 5 number, for the 6th - should be long, for others - BigInteger
+	public static long[] findPerfects(int amount) { //long[] - only for first 5 number, for the 6th - should be long, for others - BigInteger
 		int k = 0;
-		int i = 1;
-		int test;
-		int[] perfects = new int[amount];
+		long i = 1;
+		long test;
+		long[] perfects = new long[amount];
 		if (amount <= 5) {
 			System.out.println("Finding perfect numbers:");
 			do {
@@ -198,9 +198,9 @@ public class NaturalNumber {
 	
 	/** prints first perfect numbers calculated by brute force starting from start. Amount of numbers is set by argument amount. Amount should be less than 6.
 	 * @deprecated*/
-	public static void findBruteForcePerfects(int start, int amount) {
-		int k = 0;
-		int i = start;
+	public static void findBruteForcePerfects(long start, long amount) {
+		long k = 0;
+		long i = start;
 		System.out.println("Brute force finding perfect numbers:");
 		do {
 			NaturalNumber div = new NaturalNumber(i);
@@ -214,7 +214,7 @@ public class NaturalNumber {
 
 	/** calculates first perfect numbers. Amount of numbers is set by argument amount. Amount should be less than 6.*/
 	public static void printPerfects(int amount) {
-		int[] perfects = NaturalNumber.findPerfects(amount);
+		long[] perfects = NaturalNumber.findPerfects(amount);
 		for (int i = 0; i < amount; i++) {
 			System.out.println(perfects[i] + " is perfect. \tCheck: " + new NaturalNumber(perfects[i]).isPerfect());
 		}
@@ -224,30 +224,30 @@ public class NaturalNumber {
 
 	public static void main(String[] args) {
 		boolean letter = false;
-		int[] primeDivs;
-		int[] allDivs;
+		long[] primeDivs;
+		long[] allDivs;
 		System.out.println("Finding divisors of a natural number. \nPress any letter to exit.");
 		System.out.println("Before exit you will see first 5 perfect numbers.");
 		Scanner in = new Scanner(System.in);
 		do {
 			System.out.print("\nInput a number: ");
-			if (!in.hasNextInt()) {
+			if (!in.hasNextLong()) {
 				letter = true;
 				continue;
 			}
-			int n = in.nextInt();
+			long n = in.nextLong();
 			try {
 				NaturalNumber numb = new NaturalNumber(n);
 				allDivs = numb.getAllDivs();
 				primeDivs = numb.getPrimeDivs();
 				System.out.println("\nAmount of prime divisors of " + numb.getNum() + " is: " + primeDivs.length);
 				System.out.println("Div \tResult");
-				for (int k : primeDivs) {
+				for (long k : primeDivs) {
 					System.out.println(k + "\t" + numb.getNum() / k);
 				}
 				System.out.println("\nAmount of all divisors of " + numb.getNum() + " is: " + allDivs.length);
 				System.out.println("Div \tResult");
-				for (int k : allDivs) {
+				for (long k : allDivs) {
 					System.out.println(k + "\t" + numb.getNum() / k);
 				}
 				System.out.println("\nIs " + n + " prime? " + numb.isPrime());

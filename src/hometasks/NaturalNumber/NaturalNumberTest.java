@@ -70,68 +70,68 @@ public class NaturalNumberTest {
 	@Test
 	public void getAllDivsTest() {
 		NaturalNumber numb = new NaturalNumber();
-		int[] expected = {1};
+		long[] expected = {1};
 		assertTrue(Arrays.equals(expected, numb.getAllDivs()));
 		NaturalNumber numb1 = new NaturalNumber(128);
-		int[] expected1 = {1, 128, 2, 64, 4, 32, 8, 16};
+		long[] expected1 = {1, 128, 2, 64, 4, 32, 8, 16};
 		assertTrue(Arrays.equals(expected1, numb1.getAllDivs()));
 		numb.setNum(3);
-		int[] expected2 = {1, 3};
+		long[] expected2 = {1, 3};
 		assertTrue(Arrays.equals(expected2, numb.getAllDivs()));
 		numb.setNum(17);
-		int[] expected3 = {1, 17};
+		long[] expected3 = {1, 17};
 		assertTrue(Arrays.equals(expected3, numb.getAllDivs()));
 		numb.setNum(5);
-		int[] expected4 = {1, 5};
+		long[] expected4 = {1, 5};
 		assertTrue(Arrays.equals(expected4, numb.getAllDivs()));
 		numb.setNum(20);
-		int[] expected5 = {1, 20, 2, 10, 4, 5};
+		long[] expected5 = {1, 20, 2, 10, 4, 5};
 		assertTrue(Arrays.equals(expected5, numb.getAllDivs()));
 		numb.setNum(36);
-		int[] expected6 = {1, 36, 2, 18, 3, 12, 4, 9, 6};
+		long[] expected6 = {1, 36, 2, 18, 3, 12, 4, 9, 6};
 		assertTrue(Arrays.equals(expected6, numb.getAllDivs()));
 		numb.setNum(70);
-		int[] expected7 = {1, 70, 2, 35, 5, 14, 7, 10};
+		long[] expected7 = {1, 70, 2, 35, 5, 14, 7, 10};
 		assertTrue(Arrays.equals(expected7, numb.getAllDivs()));
 		numb.setNum(125);
-		int[] expected8 = {1, 125, 5, 25};
+		long[] expected8 = {1, 125, 5, 25};
 		assertTrue(Arrays.equals(expected8, numb.getAllDivs()));
 	}
 	
 	@Test
 	public void getPrimeDivsTest() {
 		NaturalNumber numb = new NaturalNumber();
-		int[] expected = {};
+		long[] expected = {};
 		assertTrue(Arrays.equals(expected, numb.getPrimeDivs()));
 		NaturalNumber numb1 = new NaturalNumber(128);
-		int[] expected1 = {2};
+		long[] expected1 = {2};
 		assertTrue(Arrays.equals(expected1, numb1.getPrimeDivs()));
 		numb.setNum(3);
-		int[] expected2 = {3};
+		long[] expected2 = {3};
 		assertTrue(Arrays.equals(expected2, numb.getPrimeDivs()));
 		numb.setNum(17);
-		int[] expected3 = {17};
+		long[] expected3 = {17};
 		assertTrue(Arrays.equals(expected3, numb.getPrimeDivs()));
 		numb.setNum(5);
-		int[] expected4 = {5};
+		long[] expected4 = {5};
 		assertTrue(Arrays.equals(expected4, numb.getPrimeDivs()));
 		numb.setNum(20);
-		int[] expected5 = {2, 5};
+		long[] expected5 = {2, 5};
 		assertTrue(Arrays.equals(expected5, numb.getPrimeDivs()));
 		numb.setNum(36);
-		int[] expected6 = {2, 3};
+		long[] expected6 = {2, 3};
 		assertTrue(Arrays.equals(expected6, numb.getPrimeDivs()));
 		numb.setNum(70);
-		int[] expected7 = {2, 5, 7};
+		long[] expected7 = {2, 5, 7};
 		assertTrue(Arrays.equals(expected7, numb.getPrimeDivs()));
 		numb.setNum(125);
-		int[] expected8 = {5};
+		long[] expected8 = {5};
 		assertTrue(Arrays.equals(expected8, numb.getPrimeDivs()));
 		numb.setNum(840);
-		int[] expected9 = {2, 3, 5, 7};
+		long[] expected9 = {2, 3, 5, 7};
 		assertTrue(Arrays.equals(expected9, numb.getPrimeDivs()));
 		numb.setNum(242);
-		int[] expected10 = {2, 11};
+		long[] expected10 = {2, 11};
 		assertTrue(Arrays.equals(expected10, numb.getPrimeDivs()));
 	}
 	
@@ -193,7 +193,7 @@ public class NaturalNumberTest {
 	
 	@Test
 	public void findPerfectsTest() {
-		int[] expected = {6, 28, 496, 8128, 33550336};
+		long[] expected = {6, 28, 496, 8128, 33550336};
 		assertTrue(Arrays.equals(expected, NaturalNumber.findPerfects(5)));
 	}
 }
