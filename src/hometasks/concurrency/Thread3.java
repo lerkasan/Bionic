@@ -6,7 +6,8 @@ public class Thread3 extends Thread {
 	public Thread3() {
 		super();
 	}
-
+	
+	@Override
 	public void run() {
 		try {
 			for (int i = 1; i <= ITERATIONS; i++) {

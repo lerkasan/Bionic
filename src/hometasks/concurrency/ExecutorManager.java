@@ -6,7 +6,7 @@ import java.util.concurrent.Executors;
 public class ExecutorManager {
 	private static Thread[] threads = new Thread[2];
 	
-	public ExecutorManager() {
+	private ExecutorManager() {
 	}
 	
 	public static Thread[] getThreads() {

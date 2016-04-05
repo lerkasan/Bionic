@@ -3,7 +3,7 @@ package hometasks.concurrency;
 public class ThreadManager {
 	private static Thread[] threads = new Thread[2];
 	
-	public ThreadManager() {
+	private ThreadManager() {
 	}
 	
 	public static Thread[] getThreads() {
