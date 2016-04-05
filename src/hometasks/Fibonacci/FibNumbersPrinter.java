@@ -1,24 +1,25 @@
 package hometasks.Fibonacci;
 
+import java.math.BigInteger;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class FibNumbersPrinter implements Runnable {
-	private BlockingQueue<Long> queue;
+	private BlockingQueue<BigInteger> queue;
 	
 	public FibNumbersPrinter() {
 		queue = new ArrayBlockingQueue<>(FibNumbersGenerator.ITERATIONS);
 	}
 
-	public FibNumbersPrinter(BlockingQueue<Long> queue) {
+	public FibNumbersPrinter(BlockingQueue<BigInteger> queue) {
 		this.queue = queue;
 	}
 
-	public BlockingQueue<Long> getQueue() {
+	public BlockingQueue<BigInteger> getQueue() {
 		return queue;
 	}
 
-	public void setQueue(BlockingQueue<Long> queue) {
+	public void setQueue(BlockingQueue<BigInteger> queue) {
 		this.queue = queue;
 	}
 	
@@ -26,11 +27,11 @@ public class FibNumbersPrinter implements Runnable {
 	public void run() {
 		boolean end = false;
 		int iteration = 0;
-		long fib;
+		BigInteger fib;
 		try {
 			while (!end) {
 				fib = queue.take();
-				if (fib != -1) {
+				if (fib != BigInteger.valueOf(-1)) {
 					iteration++;
 					System.out.println("Printing number #" + iteration + ": " + fib);
 				} else {
