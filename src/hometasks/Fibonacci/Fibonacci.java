@@ -67,8 +67,8 @@ public class Fibonacci {
 		Fibonacci fibNumbers = new Fibonacci();
 		Thread generator = new Thread(new FibonacciGenerator(fibNumbers));
 		Thread printer = new Thread(new FibonacciPrinter(fibNumbers));
-		generator.setPriority(1);
-		printer.setPriority(10);
+		/*generator.setPriority(1);
+		printer.setPriority(10);*/
 		
 		printer.start();
 		generator.start();
