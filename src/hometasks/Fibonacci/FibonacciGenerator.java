@@ -6,6 +6,10 @@ public class FibonacciGenerator implements Runnable {
 	public FibonacciGenerator() {
 		fib = new Fibonacci();
 	}
+
+	public FibonacciGenerator(Fibonacci fib) {
+		this.fib = fib;
+	}
 	
 	public Fibonacci getFib() {
 		return fib;
@@ -14,12 +18,6 @@ public class FibonacciGenerator implements Runnable {
 	public void setFib(Fibonacci fib) {
 		this.fib = fib;
 	}
-
-	public FibonacciGenerator(Fibonacci fib) {
-		this.fib = fib;
-	}
-
-
 
 	@Override
 	public void run() {

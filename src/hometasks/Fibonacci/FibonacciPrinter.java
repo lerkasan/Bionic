@@ -7,15 +7,15 @@ public class FibonacciPrinter implements Runnable {
 		fib = new Fibonacci();
 	}
 	
+	public FibonacciPrinter(Fibonacci fib) {
+		this.fib = fib;
+	}
+	
 	public Fibonacci getFib() {
 		return fib;
 	}
 
 	public void setFib(Fibonacci fib) {
-		this.fib = fib;
-	}
-
-	public FibonacciPrinter(Fibonacci fib) {
 		this.fib = fib;
 	}
 

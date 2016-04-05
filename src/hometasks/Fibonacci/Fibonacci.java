@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Fibonacci {
 	public static final int ITERATIONS = 30;
-	private boolean renewed = false;
+	private volatile boolean renewed = false;
 	private volatile List<Integer> numbers;
 	
 	public Fibonacci() {
@@ -18,31 +18,46 @@ public class Fibonacci {
 		this.numbers = numbers;
 	}
 
-	synchronized public void generate() {
+	public synchronized void generate() {
 		int current;
 		int previous1 = 0;
 		int previous2 = 1;
-		for (int i = 1; i <= ITERATIONS; i++) {
+		int i = 1;
+		while ((!renewed) && (i <= ITERATIONS)) {
 			current = previous1 + previous2;
 			previous1 = previous2;
 			previous2 = current;
 			System.out.println("Iteration "+ i + ". Putting number " + current);
 			numbers.add(current);
 			renewed = true;
+			i++;
 			notifyAll();
-			Thread.yield();
+			while (renewed) {
+				try {
+					wait();
+				} catch (InterruptedException e) {
+				}
+			}
+			//Thread.yield();
 		}
 		System.out.println("Genetator. Done");
+		renewed = true;
+		notifyAll();
 	}
 	
-	synchronized public void print() {
+	public synchronized void print() {
+		int counter = 0;
 		try {
 			while (! renewed) {
 				wait();
+				System.out.println("Printing number " + numbers.get(numbers.size()-1));
+				counter++;
+				if (counter < numbers.size()-1) {
+					renewed = false;
+				}
+				notifyAll();
 			}
-			System.out.println("Printing number " + numbers.get(numbers.size()-1));
-			
-		//	count++;
+			System.out.println("Printer. Done.");
 		} catch (InterruptedException e) {
 		}
 	}
