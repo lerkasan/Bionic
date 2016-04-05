@@ -1,33 +1,34 @@
 package hometasks.Fibonacci;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Fibonacci {
-	public static final int ITERATIONS = 30;
+	public static final int ITERATIONS = 300;
 	private volatile boolean renewed = false;
-	private volatile List<Integer> numbers;
+	private volatile List<BigInteger> numbers;
 	
 	public Fibonacci() {
 		this.numbers = new ArrayList<>(ITERATIONS);
-		numbers.add(0);
-		numbers.add(1);
+		numbers.add(BigInteger.ZERO);
+		numbers.add(BigInteger.ONE);
 	}
 	
-	public Fibonacci(List<Integer> numbers) {
+	public Fibonacci(List<BigInteger> numbers) {
 		this.numbers = numbers;
 	}
 
 	public synchronized void generate() {
-		int current;
-		int previous1 = 0;
-		int previous2 = 1;
+		BigInteger current;
+		BigInteger previous1 = BigInteger.ZERO;
+		BigInteger previous2 = BigInteger.ONE;
 		int i = 1;
 		while ((!renewed) && (i <= ITERATIONS)) {
-			current = previous1 + previous2;
+			current = previous1.add(previous2);
 			previous1 = previous2;
 			previous2 = current;
-			System.out.println("Iteration "+ i + ". Putting number " + current);
+			System.out.println("Iteration "+ i + ". Putting number #" + i + ": " + current);
 			numbers.add(current);
 			renewed = true;
 			i++;
@@ -50,9 +51,9 @@ public class Fibonacci {
 		try {
 			while (! renewed) {
 				wait();
-				System.out.println("Printing number " + numbers.get(numbers.size()-1));
 				counter++;
 				if (counter < numbers.size()-1) {
+					System.out.println("Printing number #" + counter + ": " + numbers.get(numbers.size()-1));
 					renewed = false;
 				}
 				notifyAll();
