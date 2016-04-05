@@ -5,6 +5,9 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 public class FibNumbers {
+	
+	private FibNumbers() {
+	}
 
 	public static void main(String[] args) {
 		System.out.println("Fibonacci numbers:");
