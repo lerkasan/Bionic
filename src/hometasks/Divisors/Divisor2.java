@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 
 public class Divisor2 implements Runnable {
-	public static final int THREADSAMOUNT = 31;
+	public static final int THREADSAMOUNT = 5;
 	private long number;
 	private List<FutureTask<Long>> parts; 
 	ExecutorService pool = Executors.newCachedThreadPool();
@@ -94,7 +94,7 @@ public class Divisor2 implements Runnable {
 	}
 	
 	public static void main(String[] args) {
-		Divisor2 divide1 = new Divisor2(4057884692476320L);
+		Divisor2 divide1 = new Divisor2(1024L);
 		Thread thread1 = new Thread(divide1);
 		thread1.start();
 	}

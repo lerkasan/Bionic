@@ -84,8 +84,13 @@ public class Divisor implements Runnable {
 				thread1.start();
 				*/
 			}
-			for (FutureTask<Long> part : parts) {
-				totalAmount += part.get();
+			for (FutureTask<Long> part : parts) { 
+			//	if (part.isDone()) { // TO DO - сделать извещение о готовности всех частей и тогда все их просуммировать
+					totalAmount += part.get();
+				/*} else {
+					System.err.println("Not ready");
+				}*/
+				
 			}
 			pool.shutdown();
 			System.out.println("\nNumber " + number + " has " + totalAmount + " divisors.");
